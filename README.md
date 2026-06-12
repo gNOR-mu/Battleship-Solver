@@ -1,0 +1,68 @@
+# Descripción general
+
+Este es un repositorio inspirado en un proyecto que tuve que hacer en algún momento de la universidad en la asignatura de Análisis y Diseños de Algoritmos (ADA), sobre resolver un Battleship en la menor cantidad de movimientos posibles.
+
+La idea del repositorio es simple, mostrar diversos algoritmos y sus funcionamientos como estrategias para resolver el tablero de forma eficiente e ineficiente según el algoritmo utilizado mediante el uso del patrón de diseño Strategy.
+
+# Uso con Maven
+
+Compilación: 
+```shell 
+mvn compile
+```
+
+Ejecución: 
+```shell 
+mvn exec:exec
+```
+
+Test: 
+```shell 
+mvn test
+```
+
+# Estructura de archivos
+
+```
+├───doc                                 # Documentación del proyecto.
+├───src
+│   ├───main
+│   │   └───java
+│   │       └───com
+│   │           └───gnormu
+│   │               └───battleship
+│   │                   ├── App.java    # Archivo principal de Java.
+│   │                   ├───domain      # Clases fundamentales que representan los datos del juego.
+│   │                   ├───engine      # Controla el flujo de la aplicación.
+│   │                   ├───gui         # Paquete separado exclusivamente para el entorno visual.
+│   │                   └───strategy    # Incluye la interfaz central BattleshipStrategy y todas sus implementaciones concretas como RandomSearch, HuntAndTarget, etc.
+│   └───test                            # Tests de archivos.
+│       └...
+```
+
+# Consideraciones
+
+- El código está en inglés pero la documentación en español
+- Se debe utilizar un random criptográficamente seguro como SecureRandom u otro similar.
+
+# TODO
+
+### General:
+- [ ] Documentar cada solver con una descripción detallada de su funcionamiento.
+- [ ] Definir framework para la GUI.
+
+
+### Implementar algoritmos:
+
+Descripción breve de los algoritmos a implementar:
+
+- [ ] [Brute Force](doc/Brute%20force.md): Recorre el tablero como si estuviera leyendo un libro, de izquierda a derecha y de arriba abajo.
+- [ ] [Random Search](doc/Random%20search.md): algoritmo básico. Simplemente, elige una coordenada al azar que no haya sido disparada antes ignorando si impactó.
+- [ ] [Hunt and Target](doc/Hunt%20and%20target.md): Es el algoritmo que la mayoría de los humanos usamos de forma intuitiva.
+  - Modo Hunt: Dispara al azar hasta que encuentra un barco (un "Hit"). 
+  - Modo Target: Una vez que acierta, deja de disparar al azar y empieza a probar las celdas adyacentes (arriba, abajo, izquierda, derecha) hasta hundir el barco.
+- [ ] [Parity / Checkerboard](doc/Parity%20checkerboard.md) (Paridad o Tablero de Ajedrez): Optimiza la búsqueda basándose en una regla matemática
+  - Ejemplo: el barco más pequeño ocupa 2 celdas.
+  - Cómo funciona: Solo dispara en celdas de un color del tablero de ajedrez (donde x + y es par, por ejemplo). Es imposible que un barco de tamaño 2 o más se esconda sin tocar al menos una celda de ese color
+- [ ] [Probability Density Analysis (Monte Carlo)](doc/Montecarlo.md): Algoritmo probabilístico, las celdas donde los barcos caben con más frecuencia son las que tienen mayor probabilidad de éxito.
+- [ ] [Heuristic-Based](doc/Heuristic-based.md): Una combinación de reglas predefinidas.

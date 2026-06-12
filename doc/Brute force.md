@@ -1,0 +1,3 @@
+# Brute Force
+
+Por implementar.
