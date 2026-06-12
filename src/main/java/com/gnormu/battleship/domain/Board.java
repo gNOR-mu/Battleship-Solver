@@ -27,7 +27,7 @@ public class Board {
     private final int dimension;
 
     /** Arreglo bidimensional que representa el tablero de juego */
-    private final CellStates[][] grid;
+    private final CellState[][] grid;
 
     /** Mapa que representa la ubicación de los barcos en el tablero */
     private final Map<Coordinate, ShipType> shipsGrid;
@@ -40,7 +40,7 @@ public class Board {
 
     public Board() {
         this.dimension = GameConfig.BOARD_DIMENSION;
-        this.grid = new CellStates[dimension][dimension];
+        this.grid = new CellState[dimension][dimension];
         this.shipsGrid = new HashMap<>();
         this.shipHealths = new int[ShipType.VALUES.size()];
         this.totalShots = 0;
@@ -56,7 +56,7 @@ public class Board {
         // Limpia la matriz volviéndola agua
         for (int i = 0; i < dimension; i++) {
             for (int j = 0; j < dimension; j++) {
-                grid[i][j] = CellStates.WATER;
+                grid[i][j] = CellState.WATER;
             }
         }
 
@@ -91,15 +91,15 @@ public class Board {
             return;
         }
 
-        CellStates state = grid[row][col];
-        if (state == CellStates.SHIP) {
-            grid[row][col] = CellStates.HIT;
+        CellState state = grid[row][col];
+        if (state == CellState.SHIP) {
+            grid[row][col] = CellState.HIT;
             ShipType affectedShip = shipsGrid.get(coord);
             if (affectedShip != null) {
                 shipHealths[affectedShip.ordinal()]--;
             }
-        } else if (state == CellStates.WATER) {
-            grid[row][col] = CellStates.MISS;
+        } else if (state == CellState.WATER) {
+            grid[row][col] = CellState.MISS;
         }
     }
 
@@ -134,7 +134,7 @@ public class Board {
                 // Verificación Horizontal
                 boolean fits = true;
                 for (int i = 0; i < length; i++) {
-                    if (grid[row][col + i] != CellStates.WATER) {
+                    if (grid[row][col + i] != CellState.WATER) {
                         fits = false;
                         break;
                     }
@@ -143,7 +143,7 @@ public class Board {
                 // Posicionamiento Horizontal
                 if (fits) {
                     for (int i = 0; i < length; i++) {
-                        grid[row][col + i] = CellStates.SHIP;
+                        grid[row][col + i] = CellState.SHIP;
                         shipsGrid.put(Coordinate.of(row, col + i), ship);
                     }
                     placed = true;
@@ -156,7 +156,7 @@ public class Board {
                 // Verificación Vertical
                 boolean fits = true;
                 for (int i = 0; i < length; i++) {
-                    if (grid[row + i][col] != CellStates.WATER) {
+                    if (grid[row + i][col] != CellState.WATER) {
                         fits = false;
                         break;
                     }
@@ -165,7 +165,7 @@ public class Board {
                 // Posicionamiento Vertical
                 if (fits) {
                     for (int i = 0; i < length; i++) {
-                        grid[row + i][col] = CellStates.SHIP;
+                        grid[row + i][col] = CellState.SHIP;
                         shipsGrid.put(Coordinate.of(row + i, col), ship);
                     }
                     placed = true;

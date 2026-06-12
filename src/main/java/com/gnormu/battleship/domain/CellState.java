@@ -3,7 +3,7 @@ package com.gnormu.battleship.domain;
 /**
  * Enum que representa los posibles estados válidos de una celda del tablero
  */
-public enum CellStates {
+public enum CellState {
     /** Representa que una casilla contiene agua */
     WATER,
 
