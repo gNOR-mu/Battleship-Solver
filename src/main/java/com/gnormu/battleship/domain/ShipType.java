@@ -1,5 +1,7 @@
 package com.gnormu.battleship.domain;
 
+import java.util.List;
+
 /**
  * Representa los tipos de barcos inmutables (Flyweight) y su longitud.
  * 
@@ -19,6 +21,9 @@ public enum ShipType {
     CRUISER(3),
     SUBMARINE(3),
     DESTROYER(2);
+
+    /** Lista inmutable para evitar la copia del arreglo de values() sin riesgo de mutabilidad */
+    public static final List<ShipType> VALUES = List.of(values());
 
     private final int length;
 

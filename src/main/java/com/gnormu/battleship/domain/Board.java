@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.gnormu.battleship.config.GameConfig;
+
 /**
  * Clase que representa el tablero de juego.
  * 
@@ -21,8 +23,8 @@ import java.util.concurrent.ThreadLocalRandom;
  *           vida del barco se ha delegado a la clase {@link Board}
  */
 public class Board {
-    /** Dimensiones del tablero por defecto, tanto como su ancho y alto */
-    private static final int DEFAULT_DIMENSION = 10;
+    /** Dimensión del tablero (ancho y alto) */
+    private final int dimension;
 
     /** Arreglo bidimensional que representa el tablero de juego */
     private final CellStates[][] grid;
@@ -33,13 +35,17 @@ public class Board {
     /** Arreglo primitivo para la vida de los barcos (patrón Flyweight) */
     private final int[] shipHealths;
 
+    /** Contador de disparos realizados */
+    private int totalShots;
+
     public Board() {
-        this.grid = new CellStates[DEFAULT_DIMENSION][DEFAULT_DIMENSION];
+        this.dimension = GameConfig.BOARD_DIMENSION;
+        this.grid = new CellStates[dimension][dimension];
         this.shipsGrid = new HashMap<>();
-        this.shipHealths = new int[ShipType.values().length];
+        this.shipHealths = new int[ShipType.VALUES.size()];
+        this.totalShots = 0;
 
         initialize();
-
     }
 
     /**
@@ -48,8 +54,8 @@ public class Board {
      */
     public void initialize() {
         // Limpia la matriz volviéndola agua
-        for (int i = 0; i < DEFAULT_DIMENSION; i++) {
-            for (int j = 0; j < DEFAULT_DIMENSION; j++) {
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
                 grid[i][j] = CellStates.WATER;
             }
         }
@@ -58,24 +64,30 @@ public class Board {
         shipsGrid.clear();
 
         // Resetea las vidas de los barcos (patrón Flyweight)
-        for (ShipType type : ShipType.values()) {
+        for (ShipType type : ShipType.VALUES) {
             shipHealths[type.ordinal()] = type.getLength();
         }
+
+        this.totalShots = 0;
 
         placeShips();
     }
 
     /**
      * Realiza un disparo en la coordenada indicada, actualizando el estado de la
-     * celda
-     * y restando vida al barco en caso de impacto.
+     * celda y restando vida al barco en caso de impacto.
+     * 
+     * <p>
+     * Por cada llamada a este método se incrementa en uno el contador de disparos
+     * realizados en 1.
      * 
      * @param coord Coordenada del disparo
      */
     public void shoot(Coordinate coord) {
+        totalShots++;
         int row = coord.row();
         int col = coord.column();
-        if (row < 0 || row >= DEFAULT_DIMENSION || col < 0 || col >= DEFAULT_DIMENSION) {
+        if (row < 0 || row >= dimension || col < 0 || col >= dimension) {
             return;
         }
 
@@ -95,7 +107,7 @@ public class Board {
      * Coloca todos los barcos en el tablero de forma aleatoria
      */
     private void placeShips() {
-        for (ShipType ship : ShipType.values()) {
+        for (ShipType ship : ShipType.VALUES) {
             placeShip(ship);
         }
     }
@@ -116,8 +128,8 @@ public class Board {
             int row, col;
 
             if (horizontal) {
-                row = random.nextInt(DEFAULT_DIMENSION);
-                col = random.nextInt(DEFAULT_DIMENSION - length + 1);
+                row = random.nextInt(dimension);
+                col = random.nextInt(dimension - length + 1);
 
                 // Verificación Horizontal
                 boolean fits = true;
@@ -132,14 +144,14 @@ public class Board {
                 if (fits) {
                     for (int i = 0; i < length; i++) {
                         grid[row][col + i] = CellStates.SHIP;
-                        shipsGrid.put(new Coordinate(row, col + i), ship);
+                        shipsGrid.put(Coordinate.of(row, col + i), ship);
                     }
                     placed = true;
                 }
 
             } else {
-                row = random.nextInt(DEFAULT_DIMENSION - length + 1);
-                col = random.nextInt(DEFAULT_DIMENSION);
+                row = random.nextInt(dimension - length + 1);
+                col = random.nextInt(dimension);
 
                 // Verificación Vertical
                 boolean fits = true;
@@ -154,11 +166,34 @@ public class Board {
                 if (fits) {
                     for (int i = 0; i < length; i++) {
                         grid[row + i][col] = CellStates.SHIP;
-                        shipsGrid.put(new Coordinate(row + i, col), ship);
+                        shipsGrid.put(Coordinate.of(row + i, col), ship);
                     }
                     placed = true;
                 }
             }
         }
+    }
+
+    /**
+     * Obtiene la cantidad total de disparos realizados en el tablero
+     * 
+     * @return Cantidad total de disparos
+     */
+    public int getTotalShots() {
+        return totalShots;
+    }
+
+    /**
+     * Verifica si el juego ha terminado
+     * 
+     * @return true si el juego ha terminado, false en caso contrario
+     */
+    public boolean isGameOver() {
+        for (int health : shipHealths) {
+            if (health > 0) {
+                return false;
+            }
+        }
+        return true;
     }
 }
