@@ -189,4 +189,14 @@ public class Board {
         }
         return true;
     }
+
+    /**
+     * Obtiene una copia inmutable del mapa que representa la ubicación de los
+     * barcos en el tablero
+     * 
+     * @return Copia inmutable del mapa de barcos
+     */
+    public Map<Coordinate, ShipType> getShipsGrid() {
+        return Map.copyOf(shipsGrid);
+    }
 }
