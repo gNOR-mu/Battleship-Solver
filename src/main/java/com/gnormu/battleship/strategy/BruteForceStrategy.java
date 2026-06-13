@@ -36,7 +36,7 @@ public class BruteForceStrategy implements BattleshipStrategy {
      */
     @Override
     public void reset() {
-        this.idx = -1;
+        this.idx = 0;
     }
 
 }
