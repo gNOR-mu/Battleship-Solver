@@ -71,17 +71,17 @@ public class Board {
      * Realiza un disparo en la coordenada indicada, actualizando el estado de la
      * celda y restando vida al barco en caso de impacto.
      * 
-     * <p>
-     * Por cada llamada a este método se incrementa en uno el contador de disparos
-     * realizados en 1.
-     * 
      * @param coord Coordenada del disparo
+     * 
+     * @throws IllegalArgumentException si la coordenada del disparo está fuera de
+     *                                  los límites del tablero
      */
     public void shoot(Coordinate coord) {
         int row = coord.row();
         int col = coord.column();
         if (row < 0 || row >= dimension || col < 0 || col >= dimension) {
-            return;
+            throw new IllegalArgumentException(
+                    "Disparo fuera de los límites: " + row + "," + col);
         }
 
         CellState state = grid[row][col];
