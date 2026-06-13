@@ -12,7 +12,7 @@ import com.gnormu.battleship.domain.Coordinate;
  * 
  * 
  */
-public class TrueRandom implements BattleshipStrategy {
+public class TrueRandomStrategy implements BattleshipStrategy {
 
     /**
      * {@inheritDoc}

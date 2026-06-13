@@ -6,7 +6,7 @@ import org.openjdk.jmh.annotations.*;
 
 import com.gnormu.battleship.engine.MetricAnalyzer;
 import com.gnormu.battleship.strategy.BattleshipStrategy;
-import com.gnormu.battleship.strategy.TrueRandom;
+import com.gnormu.battleship.strategy.TrueRandomStrategy;
 
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)
@@ -25,7 +25,7 @@ public class SolverBenchmark {
 
     @Benchmark
     public double testMetricAnalyzerWithTrueRandom() {
-        BattleshipStrategy strategy = new TrueRandom();
+        BattleshipStrategy strategy = new TrueRandomStrategy();
 
         metricAnalyzer.runSimulations(strategy, totalGames);
         return metricAnalyzer.getAverageTurns();
