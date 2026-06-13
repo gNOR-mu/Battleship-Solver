@@ -43,7 +43,7 @@ mvn test
 # Consideraciones
 
 - El código está en inglés pero la documentación en español
-- Se debe utilizar un random criptográficamente seguro como SecureRandom u otro similar.
+- Se utiliza ThreadLocalRandom para calcular la aleatoriedad.
 
 - Debido a que la resolución de un tablero exige que se utilicen cientos de miles de veces los arreglos de barcos, utilizar una copia de los objetos afecta el rendimiento, por ello se ha optado implementar el patrón Flyweight para los barcos. Aunque se prevee que las resoluciones 500 000 tableros ronden el tiempo de 1-2 segundos, se pretende buscar otras formas que ayuden a estudiar como optimizar el rendimiento.
   - Opcionalmente se podría implementar una interfaz para el tablero y así ejecutar benchmarks de la forma tradicional y optimizada con el patrón Flyweight.
@@ -61,6 +61,7 @@ mvn test
 Descripción breve de los algoritmos a implementar:
 
 - [ ] [Brute Force](doc/Brute%20force.md): Recorre el tablero como si estuviera leyendo un libro, de izquierda a derecha y de arriba abajo.
+- [ ] [True Random](doc/True%20random.md): Algoritmo más ineficiente, dispara aleatoriamente en una coordenada al azar.
 - [ ] [Random Search](doc/Random%20search.md): algoritmo básico. Simplemente, elige una coordenada al azar que no haya sido disparada antes ignorando si impactó.
 - [ ] [Hunt and Target](doc/Hunt%20and%20target.md): Es el algoritmo que la mayoría de los humanos usamos de forma intuitiva.
   - Modo Hunt: Dispara al azar hasta que encuentra un barco (un "Hit"). 
