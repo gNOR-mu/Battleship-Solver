@@ -16,6 +16,12 @@ Ejecución:
 mvn exec:exec
 ```
 
+Ejecutar Benchmarks:
+```shell
+mvn clean package "-Doutput.dir=target/maven-real-classes"
+java -jar target/benchmarks.jar
+```
+
 Test: 
 ```shell 
 mvn test

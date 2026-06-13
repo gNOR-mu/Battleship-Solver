@@ -13,6 +13,9 @@ import com.gnormu.battleship.strategy.BattleshipStrategy;
  */
 public class MetricAnalyzer {
 
+    private final AtomicInteger totalTurns = new AtomicInteger(0);
+    private int lastTotalGames = 0;
+
     /**
      * Ejecuta la simulación de juegos utilizando hilos
      * 
@@ -20,12 +23,14 @@ public class MetricAnalyzer {
      * @param totalGames Número de juegos a resolver
      */
     public void runSimulations(BattleshipStrategy strategy, int totalGames) {
+        // limpieza de valores
+        totalTurns.set(0);
+        lastTotalGames = totalGames;
+
         // numero de hilos del procesador disponibles
         int availableCores = Runtime.getRuntime().availableProcessors();
         int baseGamesPerThread = totalGames / availableCores;
         int remainder = totalGames % availableCores;
-
-        AtomicInteger totalTurns = new AtomicInteger(0);
 
         try (ExecutorService executor = Executors.newFixedThreadPool(availableCores)) {
             // trabajo que va a realizar cada hilo
@@ -56,9 +61,14 @@ public class MetricAnalyzer {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
 
-        System.out.println(totalTurns.get());
-        double averageTurns = (double) totalTurns.get() / totalGames;
-        System.out.println("Promedio de turnos: " + averageTurns);
+    /**
+     * Obtiene la cantidad de turnos totales
+     * 
+     * @return Cantidad de turnos totales
+     */
+    public double getAverageTurns() {
+        return (double) totalTurns.get() / lastTotalGames;
     }
 }
