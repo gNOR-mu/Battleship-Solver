@@ -35,15 +35,11 @@ public class Board {
     /** Arreglo primitivo para la vida de los barcos (patrón Flyweight) */
     private final int[] shipHealths;
 
-    /** Contador de disparos realizados */
-    private int totalShots;
-
     public Board() {
         this.dimension = GameConfig.BOARD_DIMENSION;
         this.grid = new CellState[dimension][dimension];
         this.shipsGrid = new HashMap<>();
         this.shipHealths = new int[ShipType.VALUES.size()];
-        this.totalShots = 0;
 
         initialize();
     }
@@ -68,8 +64,6 @@ public class Board {
             shipHealths[type.ordinal()] = type.getLength();
         }
 
-        this.totalShots = 0;
-
         placeShips();
     }
 
@@ -84,7 +78,6 @@ public class Board {
      * @param coord Coordenada del disparo
      */
     public void shoot(Coordinate coord) {
-        totalShots++;
         int row = coord.row();
         int col = coord.column();
         if (row < 0 || row >= dimension || col < 0 || col >= dimension) {
@@ -175,12 +168,12 @@ public class Board {
     }
 
     /**
-     * Obtiene la cantidad total de disparos realizados en el tablero
+     * Obtiene el grid del tablero
      * 
-     * @return Cantidad total de disparos
+     * @return
      */
-    public int getTotalShots() {
-        return totalShots;
+    public CellState[][] getGrid() {
+        return grid;
     }
 
     /**

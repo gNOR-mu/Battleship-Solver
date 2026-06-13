@@ -61,7 +61,7 @@ mvn test
 Descripción breve de los algoritmos a implementar:
 
 - [ ] [Brute Force](doc/Brute%20force.md): Recorre el tablero como si estuviera leyendo un libro, de izquierda a derecha y de arriba abajo.
-- [ ] [True Random](doc/True%20random.md): Algoritmo más ineficiente, dispara aleatoriamente en una coordenada al azar.
+- [X] [True Random](doc/True%20random.md): Algoritmo más ineficiente, dispara aleatoriamente en una coordenada al azar.
 - [ ] [Random Search](doc/Random%20search.md): algoritmo básico. Simplemente, elige una coordenada al azar que no haya sido disparada antes ignorando si impactó.
 - [ ] [Hunt and Target](doc/Hunt%20and%20target.md): Es el algoritmo que la mayoría de los humanos usamos de forma intuitiva.
   - Modo Hunt: Dispara al azar hasta que encuentra un barco (un "Hit"). 
