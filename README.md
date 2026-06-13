@@ -43,8 +43,8 @@ mvn test
 # Consideraciones
 
 - El código está en inglés pero la documentación en español
-- Se utiliza ThreadLocalRandom para calcular la aleatoriedad.
-
+- Se utiliza ThreadLocalRandom para calcular la aleatoriedad el cual no es verdaderamente random, sin embargo para efectos de rendimiento se utiliza en vez de otras alternativas como SecureRandom.
+- Las pruebas se ejecutan con 500 000 tableros.
 - Debido a que la resolución de un tablero exige que se utilicen cientos de miles de veces los arreglos de barcos, utilizar una copia de los objetos afecta el rendimiento, por ello se ha optado implementar el patrón Flyweight para los barcos. Aunque se prevee que las resoluciones 500 000 tableros ronden el tiempo de 1-2 segundos, se pretende buscar otras formas que ayuden a estudiar como optimizar el rendimiento.
   - Opcionalmente se podría implementar una interfaz para el tablero y así ejecutar benchmarks de la forma tradicional y optimizada con el patrón Flyweight.
 
