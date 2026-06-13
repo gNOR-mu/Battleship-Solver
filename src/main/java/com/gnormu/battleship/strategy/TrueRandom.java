@@ -14,9 +14,6 @@ import com.gnormu.battleship.domain.Coordinate;
  */
 public class TrueRandom implements BattleshipStrategy {
 
-    public TrueRandom(boolean shootAny) {
-    }
-
     /**
      * {@inheritDoc}
      * 
