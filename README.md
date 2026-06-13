@@ -18,8 +18,15 @@ mvn exec:exec
 
 Ejecutar Benchmarks:
 ```shell
+# Obligatorio compilar
 mvn clean package "-Doutput.dir=target/maven-real-classes"
+
+# Ejecutar TODOS los benchmarks
 java -jar target/benchmarks.jar
+
+# Opcional: Ejecutar Benchmarks especificos (java -jar target/benchmarks.jar + nombre del benchmark), ejemplos:
+java -jar target/benchmarks.jar trueRandomStrategy
+java -jar target/benchmarks.jar bruteForceStrategy
 ```
 
 Test: 

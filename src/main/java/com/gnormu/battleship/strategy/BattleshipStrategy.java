@@ -15,4 +15,11 @@ public interface BattleshipStrategy {
      * @return Coordenada a disparar
      */
     Coordinate calculateNextShot(BoardView boardView);
+
+    /**
+     * Reinicia la estrategia a su estado inicial
+     * 
+     */
+    default void reset() {
+    };
 }

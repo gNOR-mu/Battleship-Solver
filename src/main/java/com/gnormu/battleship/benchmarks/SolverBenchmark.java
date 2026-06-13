@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 import org.openjdk.jmh.annotations.*;
 
 import com.gnormu.battleship.engine.MetricAnalyzer;
-import com.gnormu.battleship.strategy.BattleshipStrategy;
+import com.gnormu.battleship.strategy.BruteForceStrategy;
 import com.gnormu.battleship.strategy.TrueRandomStrategy;
 
 @State(Scope.Benchmark)
@@ -24,10 +24,14 @@ public class SolverBenchmark {
     }
 
     @Benchmark
-    public double testMetricAnalyzerWithTrueRandom() {
-        BattleshipStrategy strategy = new TrueRandomStrategy();
+    public double trueRandomStrategy() {
+        metricAnalyzer.runSimulations(TrueRandomStrategy::new, totalGames);
+        return metricAnalyzer.getAverageTurns();
+    }
 
-        metricAnalyzer.runSimulations(strategy, totalGames);
+    @Benchmark
+    public double bruteForceStrategy() {
+        metricAnalyzer.runSimulations(BruteForceStrategy::new, totalGames);
         return metricAnalyzer.getAverageTurns();
     }
 }

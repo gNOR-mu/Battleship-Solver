@@ -4,6 +4,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Supplier;
 
 import com.gnormu.battleship.domain.Board;
 import com.gnormu.battleship.strategy.BattleshipStrategy;
@@ -22,7 +23,7 @@ public class MetricAnalyzer {
      * @param strategy   Estrategia a utilizar
      * @param totalGames Número de juegos a resolver
      */
-    public void runSimulations(BattleshipStrategy strategy, int totalGames) {
+    public void runSimulations(Supplier<BattleshipStrategy> strategySupplier, int totalGames) {
         // limpieza de valores
         totalTurns.set(0);
         lastTotalGames = totalGames;
@@ -40,6 +41,7 @@ public class MetricAnalyzer {
                 if (gamesCount == 0) {
                     continue;
                 }
+                BattleshipStrategy strategy = strategySupplier.get();
 
                 executor.submit(() -> {
                     Board localBoard = new Board();
@@ -48,7 +50,11 @@ public class MetricAnalyzer {
 
                     // juegos que resuelve cada hilo
                     for (int j = 0; j < gamesCount; j++) {
+                        // inicializa el tablero
                         localBoard.initialize();
+                        // establece la estrategia a su estado inicial
+                        strategy.reset();
+
                         localTurns += engine.resolve(strategy);
                     }
                     // añado a la metrica total la cantidad de turnos del hilo
