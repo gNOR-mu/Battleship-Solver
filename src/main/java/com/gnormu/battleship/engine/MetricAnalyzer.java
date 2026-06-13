@@ -57,7 +57,7 @@ public class MetricAnalyzer {
             }
             executor.shutdown();
             // tiempo máximo antes de terminar
-            executor.awaitTermination(30, TimeUnit.MINUTES);
+            executor.awaitTermination(1, TimeUnit.MINUTES);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
