@@ -1,7 +1,6 @@
 package com.gnormu.battleship.domain;
 
 import java.util.Arrays;
-import java.util.Map;
 
 import com.gnormu.battleship.config.GameConfig;
 
@@ -32,25 +31,6 @@ public class Board2d extends AbstractBoard {
         for (int i = 0; i < GameConfig.BOARD_DIMENSION; i++) {
             Arrays.fill(grid[i], CellState.WATER);
         }
-    }
-
-    /**
-     * Obtiene el grid del tablero
-     * 
-     * @return
-     */
-    public CellState[][] getGrid() {
-        return grid;
-    }
-
-    /**
-     * Obtiene una copia inmutable del mapa que representa la ubicación de los
-     * barcos en el tablero
-     * 
-     * @return Copia inmutable del mapa de barcos
-     */
-    public Map<Coordinate, ShipType> getShipsGrid() {
-        return Map.copyOf(shipsGrid);
     }
 
     @Override
