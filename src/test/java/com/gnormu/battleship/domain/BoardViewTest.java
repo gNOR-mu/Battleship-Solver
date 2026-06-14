@@ -12,12 +12,12 @@ public class BoardViewTest {
 
     private BoardView boardView;
 
-    private Board board;
+    private Board2d board;
 
     @BeforeEach
     void setup() {
-        board = new Board();
-        boardView = new BoardView(board.getGrid());
+        board = new Board2d();
+        boardView = new BoardView(board);
     }
 
     @Test

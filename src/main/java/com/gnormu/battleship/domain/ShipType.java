@@ -9,10 +9,10 @@ import java.util.List;
  *           una clase Ship tradicional para la instanciación de los barcos,
  *           reduciendo el uso de memoria y tiempo de clonado al momento de
  *           utilizarlos en un tablero, ya que se crean múltiples instancias de
- *           barcos en un mismo tablero de {@link Board}.
+ *           barcos en un mismo tablero de {@link Board2d}.
  * 
  * @implNote Se ha delegado la lógica de manejo de vida del barco a la clase
- *           {@link Board}
+ *           {@link Board2d}
  * 
  */
 public enum ShipType {
@@ -22,7 +22,10 @@ public enum ShipType {
     SUBMARINE(3),
     DESTROYER(2);
 
-    /** Lista inmutable para evitar la copia del arreglo de values() sin riesgo de mutabilidad */
+    /**
+     * Lista inmutable para evitar la copia del arreglo de values() sin riesgo de
+     * mutabilidad
+     */
     public static final List<ShipType> VALUES = List.of(values());
 
     private final int length;

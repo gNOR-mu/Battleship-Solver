@@ -25,8 +25,8 @@ mvn clean package "-Doutput.dir=target/maven-real-classes"
 java -jar target/benchmarks.jar
 
 # Opcional: Ejecutar Benchmarks especificos (java -jar target/benchmarks.jar + nombre del benchmark), ejemplos:
-java -jar target/benchmarks.jar trueRandomStrategy
-java -jar target/benchmarks.jar bruteForceStrategy
+java -jar target/benchmarks.jar trueRandomStrategy2D
+java -jar target/benchmarks.jar bruteForceStrategy2D
 ```
 
 Test: 
@@ -73,7 +73,7 @@ mvn test
 
 Descripción breve de los algoritmos a implementar:
 
-- [ ] [Brute Force](doc/Brute%20force.md): Recorre el tablero como si estuviera leyendo un libro, de izquierda a derecha y de arriba abajo.
+- [X] [Brute Force](doc/Brute%20force.md): Recorre el tablero como si estuviera leyendo un libro, de izquierda a derecha y de arriba abajo.
 - [X] [True Random](doc/True%20random.md): Algoritmo más ineficiente, dispara aleatoriamente en una coordenada al azar.
 - [ ] [Random Search](doc/Random%20search.md): algoritmo básico. Simplemente, elige una coordenada al azar que no haya sido disparada antes ignorando si impactó.
 - [ ] [Hunt and Target](doc/Hunt%20and%20target.md): Es el algoritmo que la mayoría de los humanos usamos de forma intuitiva.

@@ -9,20 +9,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gnormu.battleship.domain.Board;
+import com.gnormu.battleship.domain.Board2d;
 import com.gnormu.battleship.domain.BoardView;
 import com.gnormu.battleship.domain.Coordinate;
 
 public class BruteForceStrategyTest {
 
-    private Board board;
+    private Board2d board;
     private BoardView boardView;
     private BattleshipStrategy strategy;
 
     @BeforeEach
     void setup() {
-        board = new Board();
-        boardView = new BoardView(board.getGrid());
+        board = new Board2d();
+        boardView = new BoardView(board);
         strategy = new BruteForceStrategy();
     }
 

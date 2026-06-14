@@ -4,7 +4,10 @@ import java.util.concurrent.TimeUnit;
 
 import org.openjdk.jmh.annotations.*;
 
+import com.gnormu.battleship.domain.Board2d;
+import com.gnormu.battleship.domain.RandomFleetPlacer;
 import com.gnormu.battleship.engine.MetricAnalyzer;
+import com.gnormu.battleship.engine.SimulationConfig;
 import com.gnormu.battleship.strategy.BruteForceStrategy;
 import com.gnormu.battleship.strategy.TrueRandomStrategy;
 
@@ -24,14 +27,22 @@ public class SolverBenchmark {
     }
 
     @Benchmark
-    public double trueRandomStrategy() {
-        metricAnalyzer.runSimulations(TrueRandomStrategy::new, totalGames);
+    public double trueRandomStrategy2D() {
+        SimulationConfig config = new SimulationConfig(
+                TrueRandomStrategy::new,
+                Board2d::new,
+                RandomFleetPlacer::new);
+        metricAnalyzer.runSimulations(config, totalGames);
         return metricAnalyzer.getAverageTurns();
     }
 
     @Benchmark
-    public double bruteForceStrategy() {
-        metricAnalyzer.runSimulations(BruteForceStrategy::new, totalGames);
+    public double bruteForceStrategy2D() {
+        SimulationConfig config = new SimulationConfig(
+                BruteForceStrategy::new,
+                Board2d::new,
+                RandomFleetPlacer::new);
+        metricAnalyzer.runSimulations(config, totalGames);
         return metricAnalyzer.getAverageTurns();
     }
 }

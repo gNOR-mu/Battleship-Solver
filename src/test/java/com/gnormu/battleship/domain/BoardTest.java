@@ -16,11 +16,15 @@ import com.gnormu.battleship.config.GameConfig;
 
 public class BoardTest {
 
-    private Board board;
+    private Board2d board;
+
+    private FleetPlacer placer;
 
     @BeforeEach
     void setup() {
-        board = new Board();
+        placer = new RandomFleetPlacer();
+        board = new Board2d();
+
     }
 
     @Test
@@ -32,6 +36,7 @@ public class BoardTest {
                 .sum();
         var grid = board.getGrid();
         int shipCellsCount = 0;
+        placer.placeShips(board);
 
         // act & assert
         assertNotEquals(0, board.getShipsGrid().size());
@@ -61,13 +66,18 @@ public class BoardTest {
         int shipCellsCount = 0;
 
         // act & assert
-        assertTrue(grid[0][0] == CellState.WATER || grid[0][0] == CellState.SHIP);
+        for (int i = 0; i < GameConfig.BOARD_DIMENSION; i++) {
+            for (int j = 0; j < GameConfig.BOARD_DIMENSION; j++) {
+                assertEquals(CellState.WATER, grid[i][j]);
+            }
+        }
 
         board.shoot(Coordinate.of(0, 0));
 
-        assertTrue(grid[0][0] == CellState.HIT || grid[0][0] == CellState.MISS);
+        assertTrue(grid[0][0] == CellState.MISS);
 
-        board.initialize();
+        board.clear();
+        placer.placeShips(board);
 
         assertNotEquals(0, board.getShipsGrid().size());
         assertEquals(GameConfig.BOARD_DIMENSION, board.getGrid().length);
@@ -116,6 +126,7 @@ public class BoardTest {
     @DisplayName("Game Over: Debe finalizar cuando no quedan barcos en el tablero")
     void gameOver_shouldFinishWhenNoShipsLeft() {
         // arrange
+        placer.placeShips(board);
 
         Map<Coordinate, ShipType> ship = board.getShipsGrid();
         Coordinate firstCoord = ship.keySet().stream().findFirst().orElse(null);

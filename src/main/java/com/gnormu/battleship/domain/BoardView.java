@@ -5,10 +5,10 @@ package com.gnormu.battleship.domain;
  * accidente el tablero original
  */
 public class BoardView {
-    private final CellState[][] grid;
+    private final Board board;
 
-    public BoardView(CellState[][] grid) {
-        this.grid = grid;
+    public BoardView(Board board) {
+        this.board = board;
     }
 
     /**
@@ -22,7 +22,7 @@ public class BoardView {
         int row = coord.row();
         int col = coord.column();
 
-        CellState state = grid[row][col];
+        CellState state = board.getCellState(row, col);
 
         // no se revela si la celda contiene un barco
         if (state == CellState.SHIP) {

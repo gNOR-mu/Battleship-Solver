@@ -6,7 +6,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
-import com.gnormu.battleship.domain.Board;
+import com.gnormu.battleship.domain.Board2d;
+import com.gnormu.battleship.domain.FleetPlacer;
+import com.gnormu.battleship.domain.RandomFleetPlacer;
 import com.gnormu.battleship.strategy.BattleshipStrategy;
 
 /**
@@ -23,7 +25,7 @@ public class MetricAnalyzer {
      * @param strategy   Estrategia a utilizar
      * @param totalGames Número de juegos a resolver
      */
-    public void runSimulations(Supplier<BattleshipStrategy> strategySupplier, int totalGames) {
+    public void runSimulations(SimulationConfig config, int totalGames) {
         // limpieza de valores
         totalTurns.set(0);
         lastTotalGames = totalGames;
@@ -41,17 +43,20 @@ public class MetricAnalyzer {
                 if (gamesCount == 0) {
                     continue;
                 }
-                BattleshipStrategy strategy = strategySupplier.get();
+                BattleshipStrategy strategy = config.strategyFactory().get();
 
                 executor.submit(() -> {
-                    Board localBoard = new Board();
-                    GameEngine engine = new GameEngine(localBoard);
+                    // todo reemplazar
+                    Board2d localBoard = new Board2d();
+                    FleetPlacer placer = new RandomFleetPlacer();
+                    GameEngine engine = new GameEngine(config);
                     int localTurns = 0;
 
                     // juegos que resuelve cada hilo
                     for (int j = 0; j < gamesCount; j++) {
                         // inicializa el tablero
-                        localBoard.initialize();
+                        localBoard.clear();
+                        placer.placeShips(localBoard);
                         // establece la estrategia a su estado inicial
                         strategy.reset();
 

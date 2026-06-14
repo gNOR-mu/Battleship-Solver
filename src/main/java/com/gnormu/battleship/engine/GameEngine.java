@@ -18,19 +18,16 @@ public class GameEngine {
      * 
      * @param board Tablero a resolver
      */
-    public GameEngine(Board board) {
-        this.board = board;
+    public GameEngine(SimulationConfig config) {
+        this.board = config.boardFactory().get();
     }
 
     /**
      * Resuelve un tablero a partir de la estrategia definida
-     * 
-     * @param strategy Estrategia a utilizar para la resolución del tablero
-     * @return Cantidad total de turnos en las que se resuelve el juego
      */
     public int resolve(BattleshipStrategy strategy) {
         int totalTurns = 0;
-        BoardView boardView = new BoardView(board.getGrid());
+        BoardView boardView = new BoardView(board);
 
         while (!board.isGameOver()) {
             Coordinate nextMove = strategy.calculateNextShot(boardView);
