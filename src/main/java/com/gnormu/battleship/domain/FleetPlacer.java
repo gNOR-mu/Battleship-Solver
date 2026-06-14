@@ -11,6 +11,6 @@ public interface FleetPlacer {
      * @param board Tablero {@link AbstractBoard} sobre el cual posicionar los
      *              barcos
      */
-    void placeShips(AbstractBoard board);
+    void placeShips(Board board);
 
 }

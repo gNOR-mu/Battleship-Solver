@@ -4,11 +4,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Supplier;
 
-import com.gnormu.battleship.domain.Board2d;
+import com.gnormu.battleship.domain.Board;
 import com.gnormu.battleship.domain.FleetPlacer;
-import com.gnormu.battleship.domain.RandomFleetPlacer;
 import com.gnormu.battleship.strategy.BattleshipStrategy;
 
 /**
@@ -46,10 +44,9 @@ public class MetricAnalyzer {
                 BattleshipStrategy strategy = config.strategyFactory().get();
 
                 executor.submit(() -> {
-                    // todo reemplazar
-                    Board2d localBoard = new Board2d();
-                    FleetPlacer placer = new RandomFleetPlacer();
-                    GameEngine engine = new GameEngine(config);
+                    Board localBoard = config.boardFactory().get();
+                    FleetPlacer placer = config.placerFactory().get();
+                    GameEngine engine = new GameEngine(localBoard);
                     int localTurns = 0;
 
                     // juegos que resuelve cada hilo

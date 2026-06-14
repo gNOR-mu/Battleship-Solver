@@ -12,7 +12,7 @@ public class RandomFleetPlacer implements FleetPlacer {
      * @implNote Posiciona todos los barcos en el tablero de forma aleatoria
      */
     @Override
-    public void placeShips(AbstractBoard board) {
+    public void placeShips(Board board) {
         for (ShipType ship : ShipType.VALUES) {
             placeShip(board, ship);
         }
@@ -24,7 +24,7 @@ public class RandomFleetPlacer implements FleetPlacer {
      * 
      * @param ship Barco a posicionar
      */
-    private void placeShip(AbstractBoard board, ShipType ship) {
+    private void placeShip(Board board, ShipType ship) {
         ThreadLocalRandom random = ThreadLocalRandom.current();
         int length = ship.getLength();
         boolean placed = false;
@@ -50,7 +50,7 @@ public class RandomFleetPlacer implements FleetPlacer {
                 if (fits) {
                     for (int i = 0; i < length; i++) {
                         board.setCellState(row, col + i, CellState.SHIP);
-                        board.shipsGrid.put(Coordinate.of(row, col + i), ship);
+                        board.putShip(Coordinate.of(row, col + i), ship);
                     }
                     placed = true;
                 }
@@ -72,7 +72,7 @@ public class RandomFleetPlacer implements FleetPlacer {
                 if (fits) {
                     for (int i = 0; i < length; i++) {
                         board.setCellState(row + i, col, CellState.SHIP);
-                        board.shipsGrid.put(Coordinate.of(row + i, col), ship);
+                        board.putShip(Coordinate.of(row + i, col), ship);
                     }
                     placed = true;
                 }

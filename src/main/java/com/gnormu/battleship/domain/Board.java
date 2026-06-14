@@ -44,4 +44,12 @@ public interface Board {
      */
     void setCellState(int row, int col, CellState state);
 
+    /**
+     * Añade un barco en la posición determinada
+     * 
+     * @param coordinate Coordenada inicial del barco
+     * @param ship       Barco a añadir
+     */
+    void putShip(Coordinate coordinate, ShipType ship);
+
 }

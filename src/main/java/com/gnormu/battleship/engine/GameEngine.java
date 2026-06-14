@@ -1,5 +1,6 @@
 package com.gnormu.battleship.engine;
 
+import com.gnormu.battleship.config.GameConfig;
 import com.gnormu.battleship.domain.Board;
 import com.gnormu.battleship.domain.BoardView;
 import com.gnormu.battleship.domain.Coordinate;
@@ -18,8 +19,8 @@ public class GameEngine {
      * 
      * @param board Tablero a resolver
      */
-    public GameEngine(SimulationConfig config) {
-        this.board = config.boardFactory().get();
+    public GameEngine(Board board) {
+        this.board = board;
     }
 
     /**
@@ -27,12 +28,18 @@ public class GameEngine {
      */
     public int resolve(BattleshipStrategy strategy) {
         int totalTurns = 0;
+        int attempts = 0;
         BoardView boardView = new BoardView(board);
 
         while (!board.isGameOver()) {
+            if (attempts > GameConfig.MAX_ATTEMPTS) {
+                throw new RuntimeException("Demasiados intentos: Se excedió el numero de intentos máximo permitido "
+                        + GameConfig.MAX_ATTEMPTS);
+            }
             Coordinate nextMove = strategy.calculateNextShot(boardView);
             board.shoot(nextMove);
             totalTurns++;
+            attempts++;
         }
         return totalTurns;
     }

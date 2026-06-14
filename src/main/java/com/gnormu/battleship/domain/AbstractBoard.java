@@ -108,6 +108,14 @@ public abstract class AbstractBoard implements Board {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void putShip(Coordinate coordinate, ShipType ship) {
+        shipsGrid.put(coordinate, ship);
+    }
+
+    /**
      * Restablece el grid del tablero a su estado inicial
      */
     protected abstract void clearBoardGrid();
