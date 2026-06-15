@@ -13,6 +13,8 @@ import com.gnormu.battleship.domain.BoardView;
  */
 public class TrueRandomStrategy implements BattleshipStrategy {
 
+    private static final String STRATEGY_NAME = "TrueRandom - Sin memoria";
+
     /**
      * {@inheritDoc}
      * 
@@ -22,6 +24,14 @@ public class TrueRandomStrategy implements BattleshipStrategy {
     @Override
     public int calculateNextShot(BoardView boardView) {
         return ThreadLocalRandom.current().nextInt(GameConfig.BOARD_DIMENSION * GameConfig.BOARD_DIMENSION);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getStrategyName() {
+        return STRATEGY_NAME;
     }
 
 }

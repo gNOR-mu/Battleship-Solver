@@ -8,6 +8,8 @@ import com.gnormu.battleship.domain.BoardView;
  */
 public class BruteForceStrategy implements BattleshipStrategy {
 
+    private static final String STRATEGY_NAME = "BruteForce";
+
     /**
      * Indice utilizado para recorrer el tablero
      */
@@ -32,6 +34,14 @@ public class BruteForceStrategy implements BattleshipStrategy {
     @Override
     public void reset() {
         this.idx = 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getStrategyName() {
+        return STRATEGY_NAME;
     }
 
 }

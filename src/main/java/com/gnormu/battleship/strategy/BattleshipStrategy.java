@@ -16,6 +16,11 @@ public interface BattleshipStrategy {
     int calculateNextShot(BoardView boardView);
 
     /**
+     * @return Nombre de la estrategia
+     */
+    String getStrategyName();
+
+    /**
      * Reinicia la estrategia a su estado inicial
      * 
      */

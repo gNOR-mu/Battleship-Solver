@@ -37,7 +37,7 @@ public interface Board {
      * Establece una celda determinada al nuevo estado
      * 
      * @param coordinate Coordenada lineal de la celda
-     * @param state Nuevo estado de la celda
+     * @param state      Nuevo estado de la celda
      */
     void setCellState(int coordinate, byte state);
 
@@ -48,5 +48,10 @@ public interface Board {
      * @param ship       Barco a añadir
      */
     void putShip(int coordinate, byte ship);
+
+    /**
+     * @return Nombre de la representación del tablero
+     */
+    String getBoardName();
 
 }

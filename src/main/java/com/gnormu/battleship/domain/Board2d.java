@@ -12,6 +12,9 @@ import com.gnormu.battleship.config.GameConfig;
  *           de los barcos.
  */
 public class Board2d extends AbstractBoard {
+
+    private static final String BOARD_NAME = "Board 2D";
+
     /** Arreglo bidimensional que representa el tablero de juego */
     private final byte[][] grid;
 
@@ -46,4 +49,11 @@ public class Board2d extends AbstractBoard {
         grid[coordinate / GameConfig.BOARD_DIMENSION][coordinate % GameConfig.BOARD_DIMENSION] = state;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getBoardName() {
+        return BOARD_NAME;
+    }
 }

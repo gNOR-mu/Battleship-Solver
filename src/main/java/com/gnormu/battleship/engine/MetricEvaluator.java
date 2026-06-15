@@ -47,43 +47,36 @@ public class MetricEvaluator {
 
         List<EvaluationResult> results = new ArrayList<>();
 
-        // Combinaciones de Tableros
-        List<Supplier<Board>> boardFactories = List.of(
-                Board1d::new,
-                Board2d::new);
-        String[] boardNames = { "Board1D", "Board2D" };
+        Supplier<Board> board = Board1d::new;
 
         // Combinaciones de Estrategias
         List<Supplier<BattleshipStrategy>> strategyFactories = List.of(
                 BruteForceStrategy::new,
                 TrueRandomStrategy::new);
-        String[] strategyNames = { "BruteForce", "TrueRandom" };
 
         MetricAnalyzer analyzer = new MetricAnalyzer();
 
-        for (int b = 0; b < boardFactories.size(); b++) {
-            for (int s = 0; s < strategyFactories.size(); s++) {
-                Supplier<Board> boardFactory = boardFactories.get(b);
-                Supplier<BattleshipStrategy> strategyFactory = strategyFactories.get(s);
+        for (Supplier<BattleshipStrategy> strategyFactory : strategyFactories) {
+            SimulationConfig config = new SimulationConfig(strategyFactory, board, RandomFleetPlacer::new);
 
-                SimulationConfig config = new SimulationConfig(strategyFactory, boardFactory, RandomFleetPlacer::new);
+            // Ejecución directa de la medición sin calentamiento
+            analyzer.runSimulations(config, totalGames);
 
-                // Ejecución directa de la medición sin calentamiento
-                analyzer.runSimulations(config, totalGames);
-
-                double avgTurns = analyzer.getAverageTurns();
-                results.add(new EvaluationResult(boardNames[b], strategyNames[s], avgTurns));
-            }
+            double avgTurns = analyzer.getAverageTurns();
+            results.add(new EvaluationResult(
+                    board.get().getBoardName(),
+                    strategyFactory.get().getStrategyName(),
+                    avgTurns));
         }
 
         // Imprimir reporte con formato de tabla
-        System.out.println("\n------------------------------------------------");
-        System.out.printf("| %-12s | %-14s | %-12s |\n", "Tablero", "Estrategia", "Turnos Prom.");
-        System.out.println("------------------------------------------------");
+        System.out.println("\n--------------------------------------------------------------------------");
+        System.out.printf("| %-12s | %-40s | %-12s |\n", "Tablero", "Estrategia", "Turnos Prom.");
+        System.out.println("--------------------------------------------------------------------------");
         for (EvaluationResult res : results) {
-            System.out.printf("| %-12s | %-14s | %-12.2f |\n", res.boardName, res.strategyName, res.averageTurns);
+            System.out.printf("| %-12s | %-40s | %-12.2f |\n", res.boardName, res.strategyName, res.averageTurns);
         }
-        System.out.println("------------------------------------------------");
-        System.out.println("================================================================================");
+        System.out.println("--------------------------------------------------------------------------");
+        System.out.println("===============================================================================");
     }
 }

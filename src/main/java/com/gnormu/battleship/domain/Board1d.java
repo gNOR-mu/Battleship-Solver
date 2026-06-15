@@ -5,6 +5,8 @@ import java.util.Arrays;
 import com.gnormu.battleship.config.GameConfig;
 
 public class Board1d extends AbstractBoard {
+    private static final String BOARD_NAME = "Board 1D";
+
     private final byte[] grid;
 
     public Board1d() {
@@ -41,6 +43,14 @@ public class Board1d extends AbstractBoard {
     @Override
     public void setCellState(int coordinate, byte state) {
         grid[coordinate] = state;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getBoardName() {
+        return BOARD_NAME;
     }
 
 }
