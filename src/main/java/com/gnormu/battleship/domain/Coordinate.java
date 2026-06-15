@@ -31,18 +31,15 @@ public record Coordinate(
     }
 
     /**
-     * Obtiene la coordenada cacheada si está dentro de los límites de la caché.
-     * Si no se ha inicializado la caché o está fuera de sus límites, crea una nueva
-     * instancia.
+     * Obtiene la coordenada de forma directa sin condicionales (branchless).
+     * Si está fuera de rango, fallará con una excepción de límites del arreglo
+     * nativa.
      * 
      * @param row    Fila
      * @param column Columna
-     * @return Instancia cacheada o nueva si está fuera de límites
+     * @return Instancia cacheada
      */
     public static Coordinate of(int row, int column) {
-        if (row >= 0 && row < GameConfig.BOARD_DIMENSION && column >= 0 && column < GameConfig.BOARD_DIMENSION) {
-            return cache[row * GameConfig.BOARD_DIMENSION + column];
-        }
-        return new Coordinate(row, column);
+        return cache[row * GameConfig.BOARD_DIMENSION + column];
     }
 }
