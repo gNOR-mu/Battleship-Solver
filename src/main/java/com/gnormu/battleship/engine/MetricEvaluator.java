@@ -12,6 +12,7 @@ import com.gnormu.battleship.strategy.BattleshipStrategy;
 import com.gnormu.battleship.strategy.BruteForceStrategy;
 import com.gnormu.battleship.strategy.TrueRandomMemoryStrategy;
 import com.gnormu.battleship.strategy.TrueRandomStrategy;
+import com.gnormu.battleship.strategy.HuntTargetStrategy;
 
 /**
  * Clase encargada de evaluar y comparar las métricas de eficiencia
@@ -73,7 +74,8 @@ public class MetricEvaluator {
         List<Supplier<BattleshipStrategy>> strategyFactories = List.of(
                 BruteForceStrategy::new,
                 TrueRandomStrategy::new,
-                TrueRandomMemoryStrategy::new);
+                TrueRandomMemoryStrategy::new,
+                HuntTargetStrategy::new);
 
         MetricAnalyzer analyzer = new MetricAnalyzer();
 

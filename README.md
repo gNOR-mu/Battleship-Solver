@@ -75,11 +75,42 @@ Descripción breve de los algoritmos a implementar:
 
 - [X] [Brute Force](doc/Brute%20force.md): Recorre el tablero como si estuviera leyendo un libro, de izquierda a derecha y de arriba abajo.
 - [X] [True Random](doc/True%20random.md): Algoritmo más ineficiente, dispara aleatoriamente en una coordenada al azar.
-- [ ] [Hunt and Target](doc/Hunt%20and%20target.md): Es el algoritmo que la mayoría de los humanos usamos de forma intuitiva.
-  - Modo Hunt: Dispara al azar hasta que encuentra un barco (un "Hit"). 
-  - Modo Target: Una vez que acierta, deja de disparar al azar y empieza a probar las celdas adyacentes (arriba, abajo, izquierda, derecha) hasta hundir el barco.
+- [X] [Hunt and Target](doc/Hunt%20and%20target.md): Es el algoritmo que la mayoría de los humanos usamos de forma intuitiva disparando al azar hasta encontrar algo y luego atacar sistemáticamente.
 - [ ] [Parity / Checkerboard](doc/Parity%20checkerboard.md) (Paridad o Tablero de Ajedrez): Optimiza la búsqueda basándose en una regla matemática
   - Ejemplo: el barco más pequeño ocupa 2 celdas.
   - Cómo funciona: Solo dispara en celdas de un color del tablero de ajedrez (donde x + y es par, por ejemplo). Es imposible que un barco de tamaño 2 o más se esconda sin tocar al menos una celda de ese color
 - [ ] [Probability Density Analysis (Monte Carlo)](doc/Montecarlo.md): Algoritmo probabilístico, las celdas donde los barcos caben con más frecuencia son las que tienen mayor probabilidad de éxito.
 - [ ] [Heuristic-Based](doc/Heuristic-based.md): Una combinación de reglas predefinidas.
+
+# Resultados
+
+Evaluación en un Notebook i5-13420H 16GB RAM DDR5, ambas pruebas se ejecutan con 500 000 tableros, las cuales representan la operación, es decir 100 ms/op corresponde a una ejecución que engloba la resolución de 500 000 tableros tardando solo 100 ms en total.
+
+### Tiempo Promedio (ms):
+```
+Benchmark                      (boardType)    (strategyType)  Mode  Cnt    Score    Error  Units
+SolverBenchmark.runSimulation      Board1D        TrueRandom  avgt    5  202,467 ± 18,972  ms/op
+SolverBenchmark.runSimulation      Board1D  TrueRandomMemory  avgt    5   86,660 ±  4,484  ms/op
+SolverBenchmark.runSimulation      Board1D        BruteForce  avgt    5   34,506 ±  4,918  ms/op
+SolverBenchmark.runSimulation      Board1D        HuntTarget  avgt    5   92,215 ±  9,917  ms/op
+```
+
+### Evaluación de turnos:
+```
+================================================================================
+                    BATTLESHIP MULTISOLVER EVALUATOR
+================================================================================
+Partidas por combinación: 500.000
+Dimensión del Tablero: 10x10
+================================================================================
+
+-------------------------------------------------------------------------------------------------------------------
+| Tablero      | Estrategia                       | Turnos Prom. | Juegos Perfectos | Mejor Juego  | Peor Juego   |
+-------------------------------------------------------------------------------------------------------------------
+| Board 1D     | BruteForce                       | 88,52        | 0                | 26           | 100          |
+| Board 1D     | TrueRandom - Sin memoria         | 343,73       | 0                | 64           | 1542         |
+| Board 1D     | TrueRandom - Con memoria         | 95,40        | 0                | 53           | 100          |
+| Board 1D     | Hunt and Target                  | 66,13        | 0                | 23           | 100          |
+-------------------------------------------------------------------------------------------------------------------
+===================================================================================================================
+```
