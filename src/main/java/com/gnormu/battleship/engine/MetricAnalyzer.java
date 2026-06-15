@@ -3,7 +3,8 @@ package com.gnormu.battleship.engine;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.LongAccumulator;
+import java.util.concurrent.atomic.LongAdder;
 
 import com.gnormu.battleship.domain.Board;
 import com.gnormu.battleship.domain.FleetPlacer;
@@ -15,10 +16,10 @@ import com.gnormu.battleship.strategy.BattleshipStrategy;
  */
 public class MetricAnalyzer {
 
-    private final AtomicInteger totalTurns = new AtomicInteger(0);
-    private final AtomicInteger perfectGames = new AtomicInteger(0);
-    private final AtomicInteger worstGameTurns = new AtomicInteger(0);
-    private final AtomicInteger bestGameTurns = new AtomicInteger(Integer.MAX_VALUE);
+    private final LongAdder totalTurns = new LongAdder();
+    private final LongAdder perfectGames = new LongAdder();
+    private final LongAccumulator worstGameTurns = new LongAccumulator(Math::max, 0);
+    private final LongAccumulator bestGameTurns = new LongAccumulator(Math::min, Integer.MAX_VALUE);
     private int lastTotalGames = 0;
 
     /**
@@ -29,10 +30,10 @@ public class MetricAnalyzer {
      */
     public void runSimulations(SimulationConfig config, int totalGames) {
         // limpieza de valores
-        totalTurns.set(0);
-        perfectGames.set(0);
-        worstGameTurns.set(0);
-        bestGameTurns.set(Integer.MAX_VALUE);
+        totalTurns.reset();
+        perfectGames.reset();
+        worstGameTurns.reset();
+        bestGameTurns.reset();
         lastTotalGames = totalGames;
 
         // numero de hilos del procesador disponibles
@@ -81,10 +82,10 @@ public class MetricAnalyzer {
                         }
                     }
                     // añado a la metrica total la cantidad de turnos del hilo
-                    totalTurns.addAndGet(localTurns);
-                    perfectGames.addAndGet(localPerfect);
-                    worstGameTurns.accumulateAndGet(localMax, Math::max);
-                    bestGameTurns.accumulateAndGet(localMin, Math::min);
+                    totalTurns.add(localTurns);
+                    perfectGames.add(localPerfect);
+                    worstGameTurns.accumulate(localMax);
+                    bestGameTurns.accumulate(localMin);
                 });
             }
             executor.shutdown();
@@ -101,7 +102,7 @@ public class MetricAnalyzer {
      * @return Cantidad de turnos totales
      */
     public double getAverageTurns() {
-        return (double) totalTurns.get() / lastTotalGames;
+        return (double) totalTurns.sum() / lastTotalGames;
     }
 
     /**
@@ -110,7 +111,7 @@ public class MetricAnalyzer {
      * @return Cantidad de juegos perfectos
      */
     public int getPerfectGames() {
-        return perfectGames.get();
+        return perfectGames.intValue();
     }
 
     /**
@@ -119,7 +120,7 @@ public class MetricAnalyzer {
      * @return Turnos del peor juego
      */
     public int getWorstGameTurns() {
-        return worstGameTurns.get();
+        return worstGameTurns.intValue();
     }
 
     /**
@@ -128,7 +129,7 @@ public class MetricAnalyzer {
      * @return Turnos del mejor juego
      */
     public int getBestGameTurns() {
-        int best = bestGameTurns.get();
+        int best = bestGameTurns.intValue();
         return best == Integer.MAX_VALUE ? 0 : best;
     }
 }
