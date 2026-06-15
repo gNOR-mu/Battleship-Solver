@@ -40,9 +40,8 @@ public record Coordinate(
      * @return Instancia cacheada o nueva si está fuera de límites
      */
     public static Coordinate of(int row, int column) {
-        int index = row * GameConfig.BOARD_DIMENSION + column;
-        if (index >= 0 && index < cache.length) {
-            return cache[index];
+        if (row >= 0 && row < GameConfig.BOARD_DIMENSION && column >= 0 && column < GameConfig.BOARD_DIMENSION) {
+            return cache[row * GameConfig.BOARD_DIMENSION + column];
         }
         return new Coordinate(row, column);
     }
