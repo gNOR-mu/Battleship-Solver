@@ -1,10 +1,10 @@
 package com.gnormu.battleship;
 
-/**
- * Hello world!
- */
+import com.gnormu.battleship.engine.MetricEvaluator;
+
 public class App {
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        MetricEvaluator evaluator = new MetricEvaluator();
+        evaluator.evaluateAll();
     }
 }

@@ -11,9 +11,6 @@ public class GameConfig {
     /** Dimensión de un tablero cuadrado */
     public static final int BOARD_DIMENSION = 10;
 
-    /** Cantidad total de tableros a generar */
-    public static final int TOTAL_BOARDS = 500_000;
-
     /**
      * Cantidad total de intentos permitidos correspondiente a
      * {@link GameConfig#BOARD_DIMENSION} al cuadrado * 1000
