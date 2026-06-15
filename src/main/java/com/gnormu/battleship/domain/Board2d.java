@@ -13,11 +13,11 @@ import com.gnormu.battleship.config.GameConfig;
  */
 public class Board2d extends AbstractBoard {
     /** Arreglo bidimensional que representa el tablero de juego */
-    private final CellState[][] grid;
+    private final byte[][] grid;
 
     public Board2d() {
         super();
-        this.grid = new CellState[GameConfig.BOARD_DIMENSION][GameConfig.BOARD_DIMENSION];
+        this.grid = new byte[GameConfig.BOARD_DIMENSION][GameConfig.BOARD_DIMENSION];
         clear();
     }
 
@@ -34,7 +34,7 @@ public class Board2d extends AbstractBoard {
     }
 
     @Override
-    public CellState getCellState(int row, int col) {
+    public byte getCellState(int row, int col) {
         return grid[row][col];
     }
 
@@ -42,7 +42,7 @@ public class Board2d extends AbstractBoard {
      * {@inheritDoc}
      */
     @Override
-    public void setCellState(int row, int col, CellState state) {
+    public void setCellState(int row, int col, byte state) {
         grid[row][col] = state;
     }
 

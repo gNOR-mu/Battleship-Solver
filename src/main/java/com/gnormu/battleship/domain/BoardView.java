@@ -17,12 +17,12 @@ public class BoardView {
      * @param coord Coordenada del disparo
      * @return Estado de la celda
      */
-    public CellState getCellState(Coordinate coord) {
+    public byte getCellState(Coordinate coord) {
 
         int row = coord.row();
         int col = coord.column();
 
-        CellState state = board.getCellState(row, col);
+        byte state = board.getCellState(row, col);
 
         // no se revela si la celda contiene un barco
         if (state == CellState.SHIP) {

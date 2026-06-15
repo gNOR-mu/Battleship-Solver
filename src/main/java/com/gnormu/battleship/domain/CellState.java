@@ -1,18 +1,24 @@
 package com.gnormu.battleship.domain;
 
 /**
- * Enum que representa los posibles estados válidos de una celda del tablero
+ * Clase que representa los posibles estados válidos de una celda del tablero
+ * 
+ * @implNote Se ha definido utilizar una clase final en vez de enum con bytes
+ *           debido a que ofrecen un mejor rendimiento
  */
-public enum CellState {
+public final class CellState {
     /** Representa que una casilla contiene agua */
-    WATER,
+    public static final byte WATER = 0;
 
     /** Representa que se ha realizado un disparo a una casilla con agua */
-    MISS,
+    public static final byte MISS = 1;
 
     /** Representa que se ha realizado un disparo a una casilla con un barco */
-    HIT,
+    public static final byte HIT = 2;
 
     /** Representa que una casilla contiene un barco o un fragmento de él */
-    SHIP,
+    public static final byte SHIP = 3;
+
+    private CellState() {
+    }
 }

@@ -89,7 +89,7 @@ public abstract class AbstractBoard implements Board {
 
         validateCoordinates(row, col);
 
-        CellState state = getCellState(row, col);
+        byte state = getCellState(row, col);
 
         if (state == CellState.SHIP) {
             setCellState(row, col, CellState.HIT);
@@ -119,10 +119,10 @@ public abstract class AbstractBoard implements Board {
     /**
      * {@inheritDoc}
      */
-    public abstract CellState getCellState(int row, int col);
+    public abstract byte getCellState(int row, int col);
 
     /**
      * {@inheritDoc}
      */
-    public abstract void setCellState(int row, int col, CellState state);
+    public abstract void setCellState(int row, int col, byte state);
 }

@@ -33,7 +33,7 @@ public interface Board {
      * @param col Columna de la celda
      * @return Estado de la celda correspondiente
      */
-    CellState getCellState(int row, int col);
+    byte getCellState(int row, int col);
 
     /**
      * Establece una celda determinada al nuevo estado
@@ -42,7 +42,7 @@ public interface Board {
      * @param col   Columna del tablero
      * @param state Nuevo estado de la celda
      */
-    void setCellState(int row, int col, CellState state);
+    void setCellState(int row, int col, byte state);
 
     /**
      * Añade un barco en la posición determinada
