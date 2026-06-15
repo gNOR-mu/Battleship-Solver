@@ -23,7 +23,7 @@ public class BoardViewTest {
     @Test
     @DisplayName("Ocultamiento datos: No se deben mostrar los barcos")
     void getCellState_shouldHideShips() {
-        for (int i = 0; i < GameConfig.BOARD_DIMENSION * GameConfig.BOARD_DIMENSION; i++) {
+        for (int i = 0; i < GameConfig.DIMENSION_SQUARED; i++) {
             assertNotEquals(CellState.SHIP, boardView.getCellState(i));
         }
     }

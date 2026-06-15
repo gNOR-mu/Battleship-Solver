@@ -11,7 +11,7 @@ public class Board1d extends AbstractBoard {
 
     public Board1d() {
         super();
-        this.grid = new byte[GameConfig.BOARD_DIMENSION * GameConfig.BOARD_DIMENSION];
+        this.grid = new byte[GameConfig.DIMENSION_SQUARED];
         clear();
     }
 

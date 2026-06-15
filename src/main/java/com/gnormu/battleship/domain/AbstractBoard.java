@@ -31,7 +31,7 @@ public abstract class AbstractBoard implements Board {
 
     public AbstractBoard() {
         this.shipHealths = new int[ShipType.COUNT];
-        this.shipsGrid = new byte[GameConfig.BOARD_DIMENSION * GameConfig.BOARD_DIMENSION];
+        this.shipsGrid = new byte[GameConfig.DIMENSION_SQUARED];
     }
 
     /**
@@ -43,7 +43,7 @@ public abstract class AbstractBoard implements Board {
      *                                  los límites del tablero
      */
     protected void validateCoordinates(int coordinate) {
-        if (coordinate < 0 || coordinate >= GameConfig.BOARD_DIMENSION * GameConfig.BOARD_DIMENSION) {
+        if (coordinate < 0 || coordinate >= GameConfig.DIMENSION_SQUARED) {
             throw new IllegalArgumentException(
                     "Disparo fuera de los límites: " + coordinate);
         }

@@ -23,7 +23,7 @@ public class TrueRandomStrategy implements BattleshipStrategy {
      */
     @Override
     public int calculateNextShot(BoardView boardView) {
-        return ThreadLocalRandom.current().nextInt(GameConfig.BOARD_DIMENSION * GameConfig.BOARD_DIMENSION);
+        return ThreadLocalRandom.current().nextInt(GameConfig.DIMENSION_SQUARED);
     }
 
     /**

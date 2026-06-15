@@ -10,6 +10,7 @@ import com.gnormu.battleship.domain.Board1d;
 import com.gnormu.battleship.domain.RandomFleetPlacer;
 import com.gnormu.battleship.strategy.BattleshipStrategy;
 import com.gnormu.battleship.strategy.BruteForceStrategy;
+import com.gnormu.battleship.strategy.TrueRandomMemoryStrategy;
 import com.gnormu.battleship.strategy.TrueRandomStrategy;
 
 /**
@@ -71,7 +72,8 @@ public class MetricEvaluator {
         // Combinaciones de Estrategias
         List<Supplier<BattleshipStrategy>> strategyFactories = List.of(
                 BruteForceStrategy::new,
-                TrueRandomStrategy::new);
+                TrueRandomStrategy::new,
+                TrueRandomMemoryStrategy::new);
 
         MetricAnalyzer analyzer = new MetricAnalyzer();
 

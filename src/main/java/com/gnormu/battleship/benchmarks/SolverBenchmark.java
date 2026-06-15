@@ -13,6 +13,7 @@ import com.gnormu.battleship.engine.MetricAnalyzer;
 import com.gnormu.battleship.engine.SimulationConfig;
 import com.gnormu.battleship.strategy.BattleshipStrategy;
 import com.gnormu.battleship.strategy.BruteForceStrategy;
+import com.gnormu.battleship.strategy.TrueRandomMemoryStrategy;
 import com.gnormu.battleship.strategy.TrueRandomStrategy;
 
 @State(Scope.Benchmark)
@@ -20,7 +21,7 @@ import com.gnormu.battleship.strategy.TrueRandomStrategy;
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class SolverBenchmark {
 
-    @Param({ "TrueRandom", "BruteForce" })
+    @Param({ "TrueRandom", "TrueRandomMemory", "BruteForce" })
     private String strategyType;
 
     @Param({ "Board1D", "Board2D" })
@@ -43,6 +44,7 @@ public class SolverBenchmark {
 
         Supplier<BattleshipStrategy> strategyFactory = switch (strategyType) {
             case "TrueRandom" -> TrueRandomStrategy::new;
+            case "TrueRandomMemory" -> TrueRandomMemoryStrategy::new;
             case "BruteForce" -> BruteForceStrategy::new;
             default -> throw new IllegalArgumentException("Estrategia no soportada: " + strategyType);
         };

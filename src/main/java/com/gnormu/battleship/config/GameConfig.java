@@ -11,10 +11,13 @@ public class GameConfig {
     /** Dimensión de un tablero cuadrado */
     public static final int BOARD_DIMENSION = 10;
 
+    /** Dimensión al cuadrado de un tablero */
+    public static final int DIMENSION_SQUARED = BOARD_DIMENSION * BOARD_DIMENSION;
+
     /**
      * Cantidad total de intentos permitidos correspondiente a
-     * {@link GameConfig#BOARD_DIMENSION} al cuadrado * 1000
+     * {@link GameConfig#DIMENSION_SQUARED} * 1000
      */
-    public static final int MAX_ATTEMPTS = BOARD_DIMENSION * BOARD_DIMENSION * 1000;
+    public static final int MAX_ATTEMPTS = DIMENSION_SQUARED * 1000;
 
 }
