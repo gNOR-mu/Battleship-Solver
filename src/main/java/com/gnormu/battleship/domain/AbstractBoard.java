@@ -24,14 +24,14 @@ public abstract class AbstractBoard implements Board {
     protected final int[] shipHealths;
 
     /** Arreglo que representa la ubicación de los barcos en el tablero */
-    protected final ShipType[] shipsGrid;
+    protected final byte[] shipsGrid;
 
     /** Vida total de todos los barcos colocados en el tablero */
     protected int totalShipHealth;
 
     public AbstractBoard() {
-        this.shipHealths = new int[ShipType.VALUES.size()];
-        this.shipsGrid = new ShipType[GameConfig.BOARD_DIMENSION * GameConfig.BOARD_DIMENSION];
+        this.shipHealths = new int[ShipType.COUNT];
+        this.shipsGrid = new byte[GameConfig.BOARD_DIMENSION * GameConfig.BOARD_DIMENSION];
     }
 
     /**
@@ -68,9 +68,11 @@ public abstract class AbstractBoard implements Board {
     @Override
     public final void clear() {
         // Limpia el mapa manteniendo su capacidad en memoria
-        Arrays.fill(shipsGrid, null);
+        Arrays.fill(shipsGrid, ShipType.NONE);
 
-        System.arraycopy(ShipType.INITIAL_HEALTHS, 0, shipHealths, 0, ShipType.INITIAL_HEALTHS.length);
+        for (int i = 0; i < ShipType.COUNT; i++) {
+            shipHealths[i] = ShipType.LENGTHS[i];
+        }
         this.totalShipHealth = ShipType.TOTAL_HEALTHS;
 
         clearBoardGrid();
@@ -93,9 +95,9 @@ public abstract class AbstractBoard implements Board {
 
         if (state == CellState.SHIP) {
             setCellState(row, col, CellState.HIT);
-            ShipType affectedShip = shipsGrid[row * GameConfig.BOARD_DIMENSION + col];
-            if (affectedShip != null) {
-                shipHealths[affectedShip.ordinal()]--;
+            byte affectedShip = shipsGrid[row * GameConfig.BOARD_DIMENSION + col];
+            if (affectedShip != ShipType.NONE) {
+                shipHealths[affectedShip]--;
                 totalShipHealth--;
             }
         } else if (state == CellState.WATER) {
@@ -107,7 +109,7 @@ public abstract class AbstractBoard implements Board {
      * {@inheritDoc}
      */
     @Override
-    public final void putShip(Coordinate coordinate, ShipType ship) {
+    public final void putShip(Coordinate coordinate, byte ship) {
         shipsGrid[coordinate.row() * GameConfig.BOARD_DIMENSION + coordinate.column()] = ship;
     }
 

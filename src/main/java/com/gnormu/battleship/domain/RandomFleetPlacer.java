@@ -13,7 +13,7 @@ public class RandomFleetPlacer implements FleetPlacer {
      */
     @Override
     public void placeShips(Board board) {
-        for (ShipType ship : ShipType.VALUES) {
+        for (byte ship = 0; ship < ShipType.COUNT; ship++) {
             placeShip(board, ship);
         }
     }
@@ -24,9 +24,9 @@ public class RandomFleetPlacer implements FleetPlacer {
      * 
      * @param ship Barco a posicionar
      */
-    private void placeShip(Board board, ShipType ship) {
+    private void placeShip(Board board, byte ship) {
         ThreadLocalRandom random = ThreadLocalRandom.current();
-        int length = ship.getLength();
+        int length = ShipType.LENGTHS[ship];
         boolean placed = false;
 
         while (!placed) {

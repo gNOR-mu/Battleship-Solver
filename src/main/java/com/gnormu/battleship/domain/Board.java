@@ -50,6 +50,6 @@ public interface Board {
      * @param coordinate Coordenada inicial del barco
      * @param ship       Barco a añadir
      */
-    void putShip(Coordinate coordinate, ShipType ship);
+    void putShip(Coordinate coordinate, byte ship);
 
 }

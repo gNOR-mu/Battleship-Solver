@@ -1,55 +1,47 @@
 package com.gnormu.battleship.domain;
 
-import java.util.List;
-
 /**
- * Representa los tipos de barcos inmutables (Flyweight) y su longitud.
+ * Representa los tipos de barcos inmutables y sus longitudes.
  * 
- * @implNote Utilizar el patrón Flyweight aporta ventajas respecto a utilizar
- *           una clase Ship tradicional para la instanciación de los barcos,
- *           reduciendo el uso de memoria y tiempo de clonado al momento de
- *           utilizarlos en un tablero, ya que se crean múltiples instancias de
- *           barcos en un mismo tablero de {@link Board2d}.
- * 
- * @implNote Se ha delegado la lógica de manejo de vida del barco a la clase
- *           {@link Board2d}
- * 
+ * @implNote Se utilizan constantes primitivas de tipo byte para reducir a cero
+ *           el uso de memoria en heap de arreglos de objetos y maximizar
+ *           rendimiento.
  */
-public enum ShipType {
-    CARRIER(5),
-    BATTLESHIP(4),
-    CRUISER(3),
-    SUBMARINE(3),
-    DESTROYER(2);
+public final class ShipType {
+    // identificación
+    public static final byte NONE = -1;
+    public static final byte CARRIER = 0;
+    public static final byte BATTLESHIP = 1;
+    public static final byte CRUISER = 2;
+    public static final byte SUBMARINE = 3;
+    public static final byte DESTROYER = 4;
 
-    /**
-     * Lista inmutable para evitar la copia del arreglo de values() sin riesgo de
-     * mutabilidad
-     */
-    public static final List<ShipType> VALUES = List.of(values());
+    // largo de los barcos
+    public static final byte CARRIER_LENGTH = 5;
+    public static final byte BATTLESHIP_LENGTH = 4;
+    public static final byte CRUISER_LENGTH = 3;
+    public static final byte SUBMARINE_LENGTH = 3;
+    public static final byte DESTROYER_LENGTH = 2;
 
-    public static final int[] INITIAL_HEALTHS;
+    public static final byte[] LENGTHS = {
+            CARRIER_LENGTH,
+            BATTLESHIP_LENGTH,
+            CRUISER_LENGTH,
+            SUBMARINE_LENGTH,
+            DESTROYER_LENGTH
+    };
+
+    public static final int COUNT = LENGTHS.length;
     public static final int TOTAL_HEALTHS;
 
     static {
-        int healths = 0;
-        ShipType[] values = ShipType.values();
-        INITIAL_HEALTHS = new int[values.length];
-        for (int i = 0; i < values.length; i++) {
-            healths += values[i].getLength();
-            INITIAL_HEALTHS[values[i].ordinal()] = healths;
+        int sum = 0;
+        for (byte len : LENGTHS) {
+            sum += len;
         }
-
-        TOTAL_HEALTHS = healths;
+        TOTAL_HEALTHS = sum;
     }
 
-    private final int length;
-
-    ShipType(int length) {
-        this.length = length;
-    }
-
-    public int getLength() {
-        return length;
+    private ShipType() {
     }
 }

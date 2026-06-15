@@ -30,7 +30,7 @@ public class GameEngineTest {
 
     @BeforeAll
     static void init() {
-        perfectGame = Arrays.stream(ShipType.values()).mapToInt(ShipType::getLength).sum();
+        perfectGame = ShipType.TOTAL_HEALTHS;
     }
 
     @BeforeEach
