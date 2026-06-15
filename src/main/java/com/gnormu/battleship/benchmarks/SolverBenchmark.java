@@ -1,13 +1,17 @@
 package com.gnormu.battleship.benchmarks;
 
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
 import org.openjdk.jmh.annotations.*;
 
+import com.gnormu.battleship.domain.Board;
+import com.gnormu.battleship.domain.Board1d;
 import com.gnormu.battleship.domain.Board2d;
 import com.gnormu.battleship.domain.RandomFleetPlacer;
 import com.gnormu.battleship.engine.MetricAnalyzer;
 import com.gnormu.battleship.engine.SimulationConfig;
+import com.gnormu.battleship.strategy.BattleshipStrategy;
 import com.gnormu.battleship.strategy.BruteForceStrategy;
 import com.gnormu.battleship.strategy.TrueRandomStrategy;
 
@@ -16,33 +20,38 @@ import com.gnormu.battleship.strategy.TrueRandomStrategy;
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class SolverBenchmark {
 
-    private MetricAnalyzer metricAnalyzer;
+    @Param({ "TrueRandom", "BruteForce" })
+    private String strategyType;
 
-    @Param({ "500000" })
-    public int totalGames;
+    @Param({ "Board1D", "Board2D" })
+    private String boardType;
+
+    private MetricAnalyzer analyzer;
+    private SimulationConfig config;
+    private final int totalGames = 500_000;
 
     @Setup(Level.Trial)
     public void setup() {
-        metricAnalyzer = new MetricAnalyzer();
+        analyzer = new MetricAnalyzer();
+
+        // Usamos un Switch moderno (Java 14+) para convertir el String en un Supplier
+        Supplier<Board> boardFactory = switch (boardType) {
+            case "Board2D" -> Board2d::new;
+            case "Board1D" -> Board1d::new;
+            default -> throw new IllegalArgumentException("Tablero no soportado: " + boardType);
+        };
+
+        Supplier<BattleshipStrategy> strategyFactory = switch (strategyType) {
+            case "TrueRandom" -> TrueRandomStrategy::new;
+            case "BruteForce" -> BruteForceStrategy::new;
+            default -> throw new IllegalArgumentException("Estrategia no soportada: " + strategyType);
+        };
+
+        config = new SimulationConfig(strategyFactory, boardFactory, RandomFleetPlacer::new);
     }
 
     @Benchmark
-    public double trueRandomStrategy2D() {
-        SimulationConfig config = new SimulationConfig(
-                TrueRandomStrategy::new,
-                Board2d::new,
-                RandomFleetPlacer::new);
-        metricAnalyzer.runSimulations(config, totalGames);
-        return metricAnalyzer.getAverageTurns();
-    }
-
-    @Benchmark
-    public double bruteForceStrategy2D() {
-        SimulationConfig config = new SimulationConfig(
-                BruteForceStrategy::new,
-                Board2d::new,
-                RandomFleetPlacer::new);
-        metricAnalyzer.runSimulations(config, totalGames);
-        return metricAnalyzer.getAverageTurns();
+    public void runSimulation() {
+        analyzer.runSimulations(config, totalGames);
     }
 }

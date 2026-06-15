@@ -4,6 +4,7 @@ import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.CommandLineOptions;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
+import org.openjdk.jmh.runner.options.TimeValue;
 import org.openjdk.jmh.runner.options.ChainedOptionsBuilder;
 
 public class BenchmarkRunner {
@@ -20,8 +21,10 @@ public class BenchmarkRunner {
 
         Options opt = builder
                 .forks(1)
-                .warmupIterations(2)
-                .measurementIterations(3)
+                .warmupIterations(3)
+                .warmupTime(TimeValue.seconds(1))
+                .measurementIterations(5)
+                .measurementTime(TimeValue.seconds(1))
                 .build();
 
         new Runner(opt).run();
