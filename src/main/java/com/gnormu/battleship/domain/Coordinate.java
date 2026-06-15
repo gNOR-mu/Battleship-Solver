@@ -41,7 +41,7 @@ public record Coordinate(
      */
     public static Coordinate of(int row, int column) {
         int index = row * GameConfig.BOARD_DIMENSION + column;
-        if (cache != null && index >= 0 && index < cache.length) {
+        if (index >= 0 && index < cache.length) {
             return cache[index];
         }
         return new Coordinate(row, column);
