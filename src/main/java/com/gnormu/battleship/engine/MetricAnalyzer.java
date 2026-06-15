@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.gnormu.battleship.domain.Board;
 import com.gnormu.battleship.domain.FleetPlacer;
+import com.gnormu.battleship.domain.ShipType;
 import com.gnormu.battleship.strategy.BattleshipStrategy;
 
 /**
@@ -15,17 +16,21 @@ import com.gnormu.battleship.strategy.BattleshipStrategy;
 public class MetricAnalyzer {
 
     private final AtomicInteger totalTurns = new AtomicInteger(0);
+    private final AtomicInteger perfectGames = new AtomicInteger(0);
+    private final AtomicInteger worstGameTurns = new AtomicInteger(0);
     private int lastTotalGames = 0;
 
     /**
      * Ejecuta la simulación de juegos utilizando hilos
      * 
-     * @param strategy   Estrategia a utilizar
+     * @param config     Configuración de la simulación
      * @param totalGames Número de juegos a resolver
      */
     public void runSimulations(SimulationConfig config, int totalGames) {
         // limpieza de valores
         totalTurns.set(0);
+        perfectGames.set(0);
+        worstGameTurns.set(0);
         lastTotalGames = totalGames;
 
         // numero de hilos del procesador disponibles
@@ -48,6 +53,8 @@ public class MetricAnalyzer {
                     FleetPlacer placer = config.placerFactory().get();
                     GameEngine engine = new GameEngine(localBoard);
                     int localTurns = 0;
+                    int localPerfect = 0;
+                    int localMax = 0;
 
                     // juegos que resuelve cada hilo
                     for (int j = 0; j < gamesCount; j++) {
@@ -57,10 +64,20 @@ public class MetricAnalyzer {
                         // establece la estrategia a su estado inicial
                         strategy.reset();
 
-                        localTurns += engine.resolve(strategy);
+                        int turns = engine.resolve(strategy);
+                        localTurns += turns;
+
+                        if (turns == ShipType.TOTAL_HEALTHS) {
+                            localPerfect++;
+                        }
+                        if (turns > localMax) {
+                            localMax = turns;
+                        }
                     }
                     // añado a la metrica total la cantidad de turnos del hilo
                     totalTurns.addAndGet(localTurns);
+                    perfectGames.addAndGet(localPerfect);
+                    worstGameTurns.accumulateAndGet(localMax, Math::max);
                 });
             }
             executor.shutdown();
@@ -78,5 +95,23 @@ public class MetricAnalyzer {
      */
     public double getAverageTurns() {
         return (double) totalTurns.get() / lastTotalGames;
+    }
+
+    /**
+     * Obtiene la cantidad de juegos perfectos (resueltos en el mínimo de turnos)
+     * 
+     * @return Cantidad de juegos perfectos
+     */
+    public int getPerfectGames() {
+        return perfectGames.get();
+    }
+
+    /**
+     * Obtiene la cantidad máxima de turnos que tomó resolver un juego (peor juego)
+     * 
+     * @return Turnos del peor juego
+     */
+    public int getWorstGameTurns() {
+        return worstGameTurns.get();
     }
 }

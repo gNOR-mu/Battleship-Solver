@@ -7,7 +7,6 @@ import java.util.function.Supplier;
 import com.gnormu.battleship.config.GameConfig;
 import com.gnormu.battleship.domain.Board;
 import com.gnormu.battleship.domain.Board1d;
-import com.gnormu.battleship.domain.Board2d;
 import com.gnormu.battleship.domain.RandomFleetPlacer;
 import com.gnormu.battleship.strategy.BattleshipStrategy;
 import com.gnormu.battleship.strategy.BruteForceStrategy;
@@ -23,11 +22,15 @@ public class MetricEvaluator {
         String boardName;
         String strategyName;
         double averageTurns;
+        int perfectGames;
+        int worstGameTurns;
 
-        public EvaluationResult(String boardName, String strategyName, double averageTurns) {
+        public EvaluationResult(String boardName, String strategyName, double averageTurns, int perfectGames, int worstGameTurns) {
             this.boardName = boardName;
             this.strategyName = strategyName;
             this.averageTurns = averageTurns;
+            this.perfectGames = perfectGames;
+            this.worstGameTurns = worstGameTurns;
         }
     }
 
@@ -63,20 +66,25 @@ public class MetricEvaluator {
             analyzer.runSimulations(config, totalGames);
 
             double avgTurns = analyzer.getAverageTurns();
+            int perfect = analyzer.getPerfectGames();
+            int worst = analyzer.getWorstGameTurns();
             results.add(new EvaluationResult(
                     board.get().getBoardName(),
                     strategyFactory.get().getStrategyName(),
-                    avgTurns));
+                    avgTurns,
+                    perfect,
+                    worst));
         }
 
         // Imprimir reporte con formato de tabla
-        System.out.println("\n--------------------------------------------------------------------------");
-        System.out.printf("| %-12s | %-40s | %-12s |\n", "Tablero", "Estrategia", "Turnos Prom.");
-        System.out.println("--------------------------------------------------------------------------");
+        System.out.println("\n----------------------------------------------------------------------------------------------------");
+        System.out.printf("| %-12s | %-32s | %-12s | %-16s | %-12s |\n", "Tablero", "Estrategia", "Turnos Prom.", "Juegos Perfectos", "Peor Juego");
+        System.out.println("----------------------------------------------------------------------------------------------------");
         for (EvaluationResult res : results) {
-            System.out.printf("| %-12s | %-40s | %-12.2f |\n", res.boardName, res.strategyName, res.averageTurns);
+            System.out.printf("| %-12s | %-32s | %-12.2f | %-16d | %-12d |\n", 
+                res.boardName, res.strategyName, res.averageTurns, res.perfectGames, res.worstGameTurns);
         }
-        System.out.println("--------------------------------------------------------------------------");
-        System.out.println("===============================================================================");
+        System.out.println("----------------------------------------------------------------------------------------------------");
+        System.out.println("====================================================================================================");
     }
 }
