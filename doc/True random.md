@@ -12,7 +12,7 @@ Elije una coordenada al azar para su disparo.
 # Variaciones
 Implementados 
 - [x] True Random sin memoria
-- [ ] True Random con memoria
+- [x] True Random con memoria
 - [ ] True Random con memoria y estado
 
 # True Random sin memoria
