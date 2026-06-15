@@ -1,3 +1,0 @@
-# Random Search
-
-Por implementar.
