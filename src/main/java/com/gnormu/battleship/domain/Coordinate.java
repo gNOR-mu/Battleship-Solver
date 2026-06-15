@@ -13,8 +13,7 @@ public record Coordinate(
         int column) {
 
     /** Caché de coordenadas pre-creadas */
-    private static Coordinate[][] cache;
-
+    private static Coordinate[] cache;
     static {
         initializeCache();
     }
@@ -25,11 +24,9 @@ public record Coordinate(
      * 
      */
     public static void initializeCache() {
-        cache = new Coordinate[GameConfig.BOARD_DIMENSION][GameConfig.BOARD_DIMENSION];
-        for (int r = 0; r < GameConfig.BOARD_DIMENSION; r++) {
-            for (int c = 0; c < GameConfig.BOARD_DIMENSION; c++) {
-                cache[r][c] = new Coordinate(r, c);
-            }
+        cache = new Coordinate[GameConfig.BOARD_DIMENSION * GameConfig.BOARD_DIMENSION];
+        for (int i = 0; i < GameConfig.BOARD_DIMENSION * GameConfig.BOARD_DIMENSION; i++) {
+            cache[i] = new Coordinate(i / GameConfig.BOARD_DIMENSION, i % GameConfig.BOARD_DIMENSION);
         }
     }
 
@@ -43,8 +40,9 @@ public record Coordinate(
      * @return Instancia cacheada o nueva si está fuera de límites
      */
     public static Coordinate of(int row, int column) {
-        if (cache != null && row >= 0 && row < cache.length && column >= 0 && column < cache[row].length) {
-            return cache[row][column];
+        int index = row * GameConfig.BOARD_DIMENSION + column;
+        if (cache != null && index >= 0 && index < cache.length) {
+            return cache[index];
         }
         return new Coordinate(row, column);
     }
