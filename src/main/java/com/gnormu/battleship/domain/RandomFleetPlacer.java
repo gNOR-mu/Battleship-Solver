@@ -31,16 +31,20 @@ public class RandomFleetPlacer implements FleetPlacer {
 
         while (!placed) {
             boolean horizontal = random.nextBoolean();
-            int row, col;
+            int row = random.nextInt(GameConfig.BOARD_DIMENSION);
+            int col = random.nextInt(GameConfig.BOARD_DIMENSION);
 
             if (horizontal) {
-                row = random.nextInt(GameConfig.BOARD_DIMENSION);
-                col = random.nextInt(GameConfig.BOARD_DIMENSION - length + 1);
+                // Verificar si traspasa el borde horizontal
+                if (col + length > GameConfig.BOARD_DIMENSION) {
+                    continue;
+                }
 
-                // Verificación Horizontal
+                // Verificación de ocupación (si cabe)
                 boolean fits = true;
                 for (int i = 0; i < length; i++) {
-                    if (board.getCellState(row, col + i) != CellState.WATER) {
+                    int coord = row * GameConfig.BOARD_DIMENSION + (col + i);
+                    if (board.getCellState(coord) != CellState.WATER) {
                         fits = false;
                         break;
                     }
@@ -49,20 +53,24 @@ public class RandomFleetPlacer implements FleetPlacer {
                 // Posicionamiento Horizontal
                 if (fits) {
                     for (int i = 0; i < length; i++) {
-                        board.setCellState(row, col + i, CellState.SHIP);
-                        board.putShip(Coordinate.of(row, col + i), ship);
+                        int coord = row * GameConfig.BOARD_DIMENSION + (col + i);
+                        board.setCellState(coord, CellState.SHIP);
+                        board.putShip(coord, ship);
                     }
                     placed = true;
                 }
 
             } else {
-                row = random.nextInt(GameConfig.BOARD_DIMENSION - length + 1);
-                col = random.nextInt(GameConfig.BOARD_DIMENSION);
+                // Verificar si traspasa el borde vertical
+                if (row + length > GameConfig.BOARD_DIMENSION) {
+                    continue;
+                }
 
-                // Verificación Vertical
+                // Verificación de ocupación (si cabe)
                 boolean fits = true;
                 for (int i = 0; i < length; i++) {
-                    if (board.getCellState(row + i, col) != CellState.WATER) {
+                    int coord = (row + i) * GameConfig.BOARD_DIMENSION + col;
+                    if (board.getCellState(coord) != CellState.WATER) {
                         fits = false;
                         break;
                     }
@@ -71,8 +79,9 @@ public class RandomFleetPlacer implements FleetPlacer {
                 // Posicionamiento Vertical
                 if (fits) {
                     for (int i = 0; i < length; i++) {
-                        board.setCellState(row + i, col, CellState.SHIP);
-                        board.putShip(Coordinate.of(row + i, col), ship);
+                        int coord = (row + i) * GameConfig.BOARD_DIMENSION + col;
+                        board.setCellState(coord, CellState.SHIP);
+                        board.putShip(coord, ship);
                     }
                     placed = true;
                 }

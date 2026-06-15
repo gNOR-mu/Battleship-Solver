@@ -26,21 +26,21 @@ public class Board1d extends AbstractBoard {
     /**
      * {@inheritDoc}
      *
-     * @implNote Calcula el índice usando {@code row * SIZE + col}
+     * @implNote Acceso directo indexado en O(1)
      */
     @Override
-    public byte getCellState(int row, int col) {
-        return grid[row * GameConfig.BOARD_DIMENSION + col];
+    public byte getCellState(int coordinate) {
+        return grid[coordinate];
     }
 
     /**
      * {@inheritDoc}
      *
-     * @implNote Calcula el índice usando {@code row * SIZE + col}
+     * @implNote Acceso directo indexado en O(1)
      */
     @Override
-    public void setCellState(int row, int col, byte state) {
-        grid[row * GameConfig.BOARD_DIMENSION + col] = state;
+    public void setCellState(int coordinate, byte state) {
+        grid[coordinate] = state;
     }
 
 }

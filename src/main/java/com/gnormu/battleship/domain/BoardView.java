@@ -14,15 +14,12 @@ public class BoardView {
     /**
      * Obtiene el estado de una celda del tablero, oculta los barcos sin tocar
      * 
-     * @param coord Coordenada del disparo
+     * @param coordinate Coordenada lineal del disparo
      * @return Estado de la celda
      */
-    public byte getCellState(Coordinate coord) {
+    public byte getCellState(int coordinate) {
 
-        int row = coord.row();
-        int col = coord.column();
-
-        byte state = board.getCellState(row, col);
+        byte state = board.getCellState(coordinate);
 
         // no se revela si la celda contiene un barco
         if (state == CellState.SHIP) {

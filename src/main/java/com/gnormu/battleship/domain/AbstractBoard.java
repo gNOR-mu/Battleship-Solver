@@ -37,17 +37,15 @@ public abstract class AbstractBoard implements Board {
     /**
      * Valida que las coordenadas permanezcan estrictamente dentro del tablero
      * 
-     * @param row Fila a validar
-     * @param col Columna a validar
+     * @param coordinate Coordenada a validar
      * 
-     * @throws IllegalArgumentException Cuando la fila (row) o columna (col) se
-     *                                  encuentran fuera de los límites del tablero
+     * @throws IllegalArgumentException Cuando la coordenada se encuentra fuera de
+     *                                  los límites del tablero
      */
-    protected void validateCoordinates(int row, int col) {
-        if (row < 0 || row >= GameConfig.BOARD_DIMENSION
-                || col < 0 || col >= GameConfig.BOARD_DIMENSION) {
+    protected void validateCoordinates(int coordinate) {
+        if (coordinate < 0 || coordinate >= GameConfig.BOARD_DIMENSION * GameConfig.BOARD_DIMENSION) {
             throw new IllegalArgumentException(
-                    "Disparo fuera de los límites: " + row + "," + col);
+                    "Disparo fuera de los límites: " + coordinate);
         }
     }
 
@@ -85,23 +83,20 @@ public abstract class AbstractBoard implements Board {
      *           correspondiente
      */
     @Override
-    public final void shoot(Coordinate coord) {
-        int row = coord.row();
-        int col = coord.column();
+    public final void shoot(int coord) {
+        validateCoordinates(coord);
 
-        validateCoordinates(row, col);
-
-        byte state = getCellState(row, col);
+        byte state = getCellState(coord);
 
         if (state == CellState.SHIP) {
-            setCellState(row, col, CellState.HIT);
-            byte affectedShip = shipsGrid[row * GameConfig.BOARD_DIMENSION + col];
+            setCellState(coord, CellState.HIT);
+            byte affectedShip = shipsGrid[coord];
             if (affectedShip != ShipType.NONE) {
                 shipHealths[affectedShip]--;
                 totalShipHealth--;
             }
         } else if (state == CellState.WATER) {
-            setCellState(row, col, CellState.MISS);
+            setCellState(coord, CellState.MISS);
         }
     }
 
@@ -109,8 +104,8 @@ public abstract class AbstractBoard implements Board {
      * {@inheritDoc}
      */
     @Override
-    public final void putShip(Coordinate coordinate, byte ship) {
-        shipsGrid[coordinate.row() * GameConfig.BOARD_DIMENSION + coordinate.column()] = ship;
+    public final void putShip(int coordinate, byte ship) {
+        shipsGrid[coordinate] = ship;
     }
 
     /**
@@ -121,10 +116,10 @@ public abstract class AbstractBoard implements Board {
     /**
      * {@inheritDoc}
      */
-    public abstract byte getCellState(int row, int col);
+    public abstract byte getCellState(int coordinate);
 
     /**
      * {@inheritDoc}
      */
-    public abstract void setCellState(int row, int col, byte state);
+    public abstract void setCellState(int coordinate, byte state);
 }

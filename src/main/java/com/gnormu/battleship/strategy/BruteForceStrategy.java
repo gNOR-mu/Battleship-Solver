@@ -1,8 +1,6 @@
 package com.gnormu.battleship.strategy;
 
-import com.gnormu.battleship.config.GameConfig;
 import com.gnormu.battleship.domain.BoardView;
-import com.gnormu.battleship.domain.Coordinate;
 
 /**
  * Estrategia de resolución de fuerza bruta: Recorre el grid completo del
@@ -24,11 +22,8 @@ public class BruteForceStrategy implements BattleshipStrategy {
      *           incrementa luego de utilizarse
      */
     @Override
-    public Coordinate calculateNextShot(BoardView boardView) {
-        final int row = idx / GameConfig.BOARD_DIMENSION;
-        final int col = idx % GameConfig.BOARD_DIMENSION;
-        idx++;
-        return Coordinate.of(row, col);
+    public int calculateNextShot(BoardView boardView) {
+        return idx++;
     }
 
     /**

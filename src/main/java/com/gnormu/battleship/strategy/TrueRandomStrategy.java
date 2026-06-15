@@ -4,7 +4,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.gnormu.battleship.config.GameConfig;
 import com.gnormu.battleship.domain.BoardView;
-import com.gnormu.battleship.domain.Coordinate;
 
 /**
  * Algoritmo de resolución ineficiente que dispara aleatoriamente sin considerar
@@ -21,12 +20,8 @@ public class TrueRandomStrategy implements BattleshipStrategy {
      *           de las dimensiones del tablero sin considerar absolutamente nada
      */
     @Override
-    public Coordinate calculateNextShot(BoardView boardView) {
-        ThreadLocalRandom random = ThreadLocalRandom.current();
-        int row = random.nextInt(GameConfig.BOARD_DIMENSION);
-        int col = random.nextInt(GameConfig.BOARD_DIMENSION);
-
-        return Coordinate.of(row, col);
+    public int calculateNextShot(BoardView boardView) {
+        return ThreadLocalRandom.current().nextInt(GameConfig.BOARD_DIMENSION * GameConfig.BOARD_DIMENSION);
     }
 
 }

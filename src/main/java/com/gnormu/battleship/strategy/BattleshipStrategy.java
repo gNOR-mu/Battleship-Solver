@@ -1,7 +1,6 @@
 package com.gnormu.battleship.strategy;
 
 import com.gnormu.battleship.domain.BoardView;
-import com.gnormu.battleship.domain.Coordinate;
 
 /**
  * Interfaz que define el comportamiendo de las estrategias de resolución
@@ -9,12 +8,12 @@ import com.gnormu.battleship.domain.Coordinate;
 public interface BattleshipStrategy {
 
     /**
-     * Calcula la coordenada {@link Coordinate} del siguiente disparo.
+     * Calcula la coordenada del siguiente disparo.
      * 
      * @param boardView Tablero de solo lectura con información pública del juego
-     * @return Coordenada a disparar
+     * @return Coordenada lineal a disparar
      */
-    Coordinate calculateNextShot(BoardView boardView);
+    int calculateNextShot(BoardView boardView);
 
     /**
      * Reinicia la estrategia a su estado inicial

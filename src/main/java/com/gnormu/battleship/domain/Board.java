@@ -10,13 +10,12 @@ public interface Board {
      * Realiza un disparo en la coordenada indicada, actualizando el estado de la
      * celda y restando vida al barco en caso de impacto.
      * 
-     * @param coord Coordenada del disparo
+     * @param coordinate Coordenada lineal del disparo
      * 
-     * @throws IllegalArgumentException Cuando la fila (row) o columna (col) de la
-     *                                  coordenada (coord) se encuentran fuera de
+     * @throws IllegalArgumentException Cuando la coordenada se encuentra fuera de
      *                                  los límites del tablero
      */
-    void shoot(Coordinate coordinate);
+    void shoot(int coordinate);
 
     /**
      * Verifica si el juego ha terminado
@@ -29,27 +28,25 @@ public interface Board {
     /**
      * Obtiene la representación de la celda en la coordenada determinada
      * 
-     * @param row Fila de la celda
-     * @param col Columna de la celda
+     * @param coordinate Coordenada lineal de la celda
      * @return Estado de la celda correspondiente
      */
-    byte getCellState(int row, int col);
+    byte getCellState(int coordinate);
 
     /**
      * Establece una celda determinada al nuevo estado
      * 
-     * @param row   Fila del tablero
-     * @param col   Columna del tablero
+     * @param coordinate Coordenada lineal de la celda
      * @param state Nuevo estado de la celda
      */
-    void setCellState(int row, int col, byte state);
+    void setCellState(int coordinate, byte state);
 
     /**
      * Añade un barco en la posición determinada
      * 
-     * @param coordinate Coordenada inicial del barco
+     * @param coordinate Coordenada lineal inicial del barco
      * @param ship       Barco a añadir
      */
-    void putShip(Coordinate coordinate, byte ship);
+    void putShip(int coordinate, byte ship);
 
 }

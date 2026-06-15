@@ -3,7 +3,6 @@ package com.gnormu.battleship.engine;
 import com.gnormu.battleship.config.GameConfig;
 import com.gnormu.battleship.domain.Board;
 import com.gnormu.battleship.domain.BoardView;
-import com.gnormu.battleship.domain.Coordinate;
 import com.gnormu.battleship.strategy.BattleshipStrategy;
 
 /**
@@ -37,7 +36,7 @@ public class GameEngine {
                 throw new RuntimeException("Demasiados intentos: Se excedió el numero de intentos máximo permitido "
                         + GameConfig.MAX_ATTEMPTS);
             }
-            Coordinate nextMove = strategy.calculateNextShot(boardView);
+            int nextMove = strategy.calculateNextShot(boardView);
             board.shoot(nextMove);
             totalTurns++;
             attempts++;

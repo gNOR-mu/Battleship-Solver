@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import com.gnormu.battleship.domain.Board2d;
 import com.gnormu.battleship.domain.BoardView;
-import com.gnormu.battleship.domain.Coordinate;
 
 public class BruteForceStrategyTest {
 
@@ -30,25 +29,22 @@ public class BruteForceStrategyTest {
     @DisplayName("Sugerencia: Debe sugerir el movimiento que sigue")
     void suggestMove_shouldSuggestNextMoveCorrectly() {
         // arrange
-        List<Coordinate> firstValidCoordinates = List.of(
-                Coordinate.of(0, 0),
-                Coordinate.of(0, 1),
-                Coordinate.of(0, 2));
+        List<Integer> firstValidCoordinates = List.of(0, 1, 2);
 
         // act & assert
         for (int i = 0; i < firstValidCoordinates.size(); i++) {
-            assertEquals(firstValidCoordinates.get(i), strategy.calculateNextShot(boardView));
+            assertEquals(firstValidCoordinates.get(i).intValue(), strategy.calculateNextShot(boardView));
         }
 
-        assertNotEquals(firstValidCoordinates.get(0), strategy.calculateNextShot(boardView));
+        assertNotEquals(firstValidCoordinates.get(0).intValue(), strategy.calculateNextShot(boardView));
     }
 
     @Test
     @DisplayName("Reset: Debe restableer el índice")
     void reset_shouldResetIndexCorrectly() {
         // arrange
-        Coordinate firstValidCoordinate = Coordinate.of(0, 0);
-        Coordinate secondValidCoordinate = Coordinate.of(0, 1);
+        int firstValidCoordinate = 0;
+        int secondValidCoordinate = 1;
 
         // act & assert
         assertEquals(firstValidCoordinate, strategy.calculateNextShot(boardView));

@@ -34,16 +34,16 @@ public class Board2d extends AbstractBoard {
     }
 
     @Override
-    public byte getCellState(int row, int col) {
-        return grid[row][col];
+    public byte getCellState(int coordinate) {
+        return grid[coordinate / GameConfig.BOARD_DIMENSION][coordinate % GameConfig.BOARD_DIMENSION];
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void setCellState(int row, int col, byte state) {
-        grid[row][col] = state;
+    public void setCellState(int coordinate, byte state) {
+        grid[coordinate / GameConfig.BOARD_DIMENSION][coordinate % GameConfig.BOARD_DIMENSION] = state;
     }
 
 }
