@@ -28,6 +28,21 @@ public enum ShipType {
      */
     public static final List<ShipType> VALUES = List.of(values());
 
+    public static final int[] INITIAL_HEALTHS;
+    public static final int TOTAL_HEALTHS;
+
+    static {
+        int healths = 0;
+        ShipType[] values = ShipType.values();
+        INITIAL_HEALTHS = new int[values.length];
+        for (int i = 0; i < values.length; i++) {
+            healths += values[i].getLength();
+            INITIAL_HEALTHS[values[i].ordinal()] = healths;
+        }
+
+        TOTAL_HEALTHS = healths;
+    }
+
     private final int length;
 
     ShipType(int length) {

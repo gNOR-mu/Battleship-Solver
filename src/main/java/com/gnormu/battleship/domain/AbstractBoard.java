@@ -9,13 +9,13 @@ import com.gnormu.battleship.config.GameConfig;
  * 
  * @implNote Utilizar un arreglo primitivo para la vida de los barcos reduce el
  *           uso de memoria y tiempo de clonado al momento de utilizarlos en un
- *           tablero con cientos de miles de {@link Board2d} como se pretende
+ *           tablero con cientos de miles de {@link Board} como se pretende
  *           usar.
  * 
  * @implNote Se ha optado utilizar por el patrón Flyweight para la
  *           instanciación de los barcos ({@link ShipType}), por lo que la
  *           lógica de manejo de vida del barco se ha delegado a la clase
- *           {@link Board2d}
+ *           {@link AbstractBoard}
  * 
  */
 public abstract class AbstractBoard implements Board {
@@ -25,6 +25,9 @@ public abstract class AbstractBoard implements Board {
 
     /** Arreglo que representa la ubicación de los barcos en el tablero */
     protected final ShipType[] shipsGrid;
+
+    /** Vida total de todos los barcos colocados en el tablero */
+    protected int totalShipHealth;
 
     public AbstractBoard() {
         this.shipHealths = new int[ShipType.VALUES.size()];
@@ -53,12 +56,7 @@ public abstract class AbstractBoard implements Board {
      */
     @Override
     public boolean isGameOver() {
-        for (int health : shipHealths) {
-            if (health > 0) {
-                return false;
-            }
-        }
-        return true;
+        return totalShipHealth <= 0;
     }
 
     /**
@@ -72,10 +70,8 @@ public abstract class AbstractBoard implements Board {
         // Limpia el mapa manteniendo su capacidad en memoria
         Arrays.fill(shipsGrid, null);
 
-        // Resetea las vidas de los barcos (patrón Flyweight)
-        for (ShipType type : ShipType.VALUES) {
-            shipHealths[type.ordinal()] = type.getLength();
-        }
+        System.arraycopy(ShipType.INITIAL_HEALTHS, 0, shipHealths, 0, ShipType.INITIAL_HEALTHS.length);
+        this.totalShipHealth = ShipType.TOTAL_HEALTHS;
 
         clearBoardGrid();
     }
@@ -100,6 +96,7 @@ public abstract class AbstractBoard implements Board {
             ShipType affectedShip = shipsGrid[row * GameConfig.BOARD_DIMENSION + col];
             if (affectedShip != null) {
                 shipHealths[affectedShip.ordinal()]--;
+                totalShipHealth--;
             }
         } else if (state == CellState.WATER) {
             setCellState(row, col, CellState.MISS);
