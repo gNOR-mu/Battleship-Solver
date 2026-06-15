@@ -14,6 +14,8 @@ public class GameEngine {
     /** Tablero de juego */
     private final Board board;
 
+    private final BoardView boardView;
+
     /**
      * Constructor del motor de juego
      * 
@@ -21,6 +23,7 @@ public class GameEngine {
      */
     public GameEngine(Board board) {
         this.board = board;
+        this.boardView = new BoardView(board);
     }
 
     /**
@@ -29,8 +32,6 @@ public class GameEngine {
     public int resolve(BattleshipStrategy strategy) {
         int totalTurns = 0;
         int attempts = 0;
-        BoardView boardView = new BoardView(board);
-
         while (!board.isGameOver()) {
             if (attempts > GameConfig.MAX_ATTEMPTS) {
                 throw new RuntimeException("Demasiados intentos: Se excedió el numero de intentos máximo permitido "

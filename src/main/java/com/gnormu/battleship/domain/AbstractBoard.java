@@ -1,7 +1,6 @@
 package com.gnormu.battleship.domain;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
 import com.gnormu.battleship.config.GameConfig;
 
@@ -24,12 +23,12 @@ public abstract class AbstractBoard implements Board {
     /** Arreglo primitivo para la vida de los barcos (patrón Flyweight) */
     protected final int[] shipHealths;
 
-    /** Mapa que representa la ubicación de los barcos en el tablero */
-    protected final Map<Coordinate, ShipType> shipsGrid;
+    /** Arreglo que representa la ubicación de los barcos en el tablero */
+    protected final ShipType[] shipsGrid;
 
     public AbstractBoard() {
         this.shipHealths = new int[ShipType.VALUES.size()];
-        this.shipsGrid = new HashMap<>();
+        this.shipsGrid = new ShipType[GameConfig.BOARD_DIMENSION * GameConfig.BOARD_DIMENSION];
     }
 
     /**
@@ -71,7 +70,7 @@ public abstract class AbstractBoard implements Board {
     @Override
     public final void clear() {
         // Limpia el mapa manteniendo su capacidad en memoria
-        shipsGrid.clear();
+        Arrays.fill(shipsGrid, null);
 
         // Resetea las vidas de los barcos (patrón Flyweight)
         for (ShipType type : ShipType.VALUES) {
@@ -98,7 +97,7 @@ public abstract class AbstractBoard implements Board {
 
         if (state == CellState.SHIP) {
             setCellState(row, col, CellState.HIT);
-            ShipType affectedShip = shipsGrid.get(coord);
+            ShipType affectedShip = shipsGrid[row * GameConfig.BOARD_DIMENSION + col];
             if (affectedShip != null) {
                 shipHealths[affectedShip.ordinal()]--;
             }
@@ -112,7 +111,7 @@ public abstract class AbstractBoard implements Board {
      */
     @Override
     public final void putShip(Coordinate coordinate, ShipType ship) {
-        shipsGrid.put(coordinate, ship);
+        shipsGrid[coordinate.row() * GameConfig.BOARD_DIMENSION + coordinate.column()] = ship;
     }
 
     /**
