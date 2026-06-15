@@ -18,6 +18,7 @@ public class MetricAnalyzer {
     private final AtomicInteger totalTurns = new AtomicInteger(0);
     private final AtomicInteger perfectGames = new AtomicInteger(0);
     private final AtomicInteger worstGameTurns = new AtomicInteger(0);
+    private final AtomicInteger bestGameTurns = new AtomicInteger(Integer.MAX_VALUE);
     private int lastTotalGames = 0;
 
     /**
@@ -31,6 +32,7 @@ public class MetricAnalyzer {
         totalTurns.set(0);
         perfectGames.set(0);
         worstGameTurns.set(0);
+        bestGameTurns.set(Integer.MAX_VALUE);
         lastTotalGames = totalGames;
 
         // numero de hilos del procesador disponibles
@@ -55,6 +57,7 @@ public class MetricAnalyzer {
                     int localTurns = 0;
                     int localPerfect = 0;
                     int localMax = 0;
+                    int localMin = Integer.MAX_VALUE;
 
                     // juegos que resuelve cada hilo
                     for (int j = 0; j < gamesCount; j++) {
@@ -73,11 +76,15 @@ public class MetricAnalyzer {
                         if (turns > localMax) {
                             localMax = turns;
                         }
+                        if (turns < localMin) {
+                            localMin = turns;
+                        }
                     }
                     // añado a la metrica total la cantidad de turnos del hilo
                     totalTurns.addAndGet(localTurns);
                     perfectGames.addAndGet(localPerfect);
                     worstGameTurns.accumulateAndGet(localMax, Math::max);
+                    bestGameTurns.accumulateAndGet(localMin, Math::min);
                 });
             }
             executor.shutdown();
@@ -113,5 +120,15 @@ public class MetricAnalyzer {
      */
     public int getWorstGameTurns() {
         return worstGameTurns.get();
+    }
+
+    /**
+     * Obtiene la cantidad mínima de turnos que tomó resolver un juego (mejor juego)
+     * 
+     * @return Turnos del mejor juego
+     */
+    public int getBestGameTurns() {
+        int best = bestGameTurns.get();
+        return best == Integer.MAX_VALUE ? 0 : best;
     }
 }
