@@ -4,7 +4,7 @@ Este es un repositorio inspirado en un proyecto que tuve que hacer en algún mom
 
 La idea del repositorio es simple, mostrar diversos algoritmos y sus funcionamientos como estrategias para resolver el tablero de forma eficiente e ineficiente según el algoritmo utilizado mediante el uso del patrón de diseño Strategy.
 
-Además se toman optimizaciones adicionales, como caching, aplanado de arreglos, etc. Para reducir en mayormedida el tiempo de resolución.
+Además se toman optimizaciones adicionales, como caching, aplanado de arreglos, etc. Para reducir en mayor medida el tiempo de resolución.
 
 # Uso con Maven
 
