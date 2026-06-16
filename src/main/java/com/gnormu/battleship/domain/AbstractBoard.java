@@ -21,7 +21,7 @@ import com.gnormu.battleship.config.GameConfig;
 public abstract class AbstractBoard implements Board {
 
     /** Arreglo primitivo para la vida de los barcos (patrón Flyweight) */
-    protected final int[] shipHealths;
+    protected final byte[] shipHealths;
 
     /** Arreglo que representa la ubicación de los barcos en el tablero */
     protected final byte[] shipsGrid;
@@ -30,7 +30,7 @@ public abstract class AbstractBoard implements Board {
     protected int totalShipHealth;
 
     public AbstractBoard() {
-        this.shipHealths = new int[ShipType.COUNT];
+        this.shipHealths = new byte[ShipType.COUNT];
         this.shipsGrid = new byte[GameConfig.DIMENSION_SQUARED];
     }
 
@@ -39,12 +39,12 @@ public abstract class AbstractBoard implements Board {
      * 
      * @param coordinate Coordenada a validar
      * 
-     * @throws IllegalArgumentException Cuando la coordenada se encuentra fuera de
-     *                                  los límites del tablero
+     * @throws IndexOutOfBoundsException Cuando la coordenada se encuentra fuera de
+     *                                   los límites del tablero
      */
     protected void validateCoordinates(int coordinate) {
         if (coordinate < 0 || coordinate >= GameConfig.DIMENSION_SQUARED) {
-            throw new IllegalArgumentException(
+            throw new IndexOutOfBoundsException(
                     "Disparo fuera de los límites: " + coordinate);
         }
     }
@@ -67,10 +67,7 @@ public abstract class AbstractBoard implements Board {
     public final void clear() {
         // Limpia el mapa manteniendo su capacidad en memoria
         Arrays.fill(shipsGrid, ShipType.NONE);
-
-        for (int i = 0; i < ShipType.COUNT; i++) {
-            shipHealths[i] = ShipType.LENGTHS[i];
-        }
+        System.arraycopy(ShipType.LENGTHS, 0, shipHealths, 0, ShipType.COUNT);
         this.totalShipHealth = ShipType.TOTAL_HEALTHS;
 
         clearBoardGrid();
@@ -81,6 +78,9 @@ public abstract class AbstractBoard implements Board {
      * 
      * @implNote Según el tipo de tablero utilizado debe disparar a la celda
      *           correspondiente
+     * 
+     * @throws IndexOutOfBoundsException Cuando la coordenada se encuentra fuera de
+     *                                   los límites del tablero
      */
     @Override
     public final void shoot(int coord) {
@@ -91,10 +91,8 @@ public abstract class AbstractBoard implements Board {
         if (state == CellState.SHIP) {
             setCellState(coord, CellState.HIT);
             byte affectedShip = shipsGrid[coord];
-            if (affectedShip != ShipType.NONE) {
-                shipHealths[affectedShip]--;
-                totalShipHealth--;
-            }
+            shipHealths[affectedShip]--;
+            totalShipHealth--;
         } else if (state == CellState.WATER) {
             setCellState(coord, CellState.MISS);
         }

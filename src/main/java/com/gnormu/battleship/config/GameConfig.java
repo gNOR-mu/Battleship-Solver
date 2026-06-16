@@ -9,7 +9,7 @@ public class GameConfig {
     }
 
     /** Dimensión de un tablero cuadrado */
-    public static final int BOARD_DIMENSION = 10;
+    public static final byte BOARD_DIMENSION = 10;
 
     /** Dimensión al cuadrado de un tablero */
     public static final int DIMENSION_SQUARED = BOARD_DIMENSION * BOARD_DIMENSION;
