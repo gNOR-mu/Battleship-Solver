@@ -27,64 +27,44 @@ public class RandomFleetPlacer implements FleetPlacer {
     private void placeShip(Board board, byte ship) {
         ThreadLocalRandom random = ThreadLocalRandom.current();
         int length = ShipType.LENGTHS[ship];
-        boolean placed = false;
+        int dimension = GameConfig.BOARD_DIMENSION;
+        int maxStart = dimension - length;
 
-        while (!placed) {
+        while (true) {
             boolean horizontal = random.nextBoolean();
-            int row = random.nextInt(GameConfig.BOARD_DIMENSION);
-            int col = random.nextInt(GameConfig.BOARD_DIMENSION);
+            int row, col;
+            int baseCoord;
+            int step;
 
             if (horizontal) {
-                // Verificar si traspasa el borde horizontal
-                if (col + length > GameConfig.BOARD_DIMENSION) {
-                    continue;
-                }
-
-                // Verificación de ocupación (si cabe)
-                boolean fits = true;
-                for (int i = 0; i < length; i++) {
-                    int coord = row * GameConfig.BOARD_DIMENSION + (col + i);
-                    if (board.getCellState(coord) != CellState.WATER) {
-                        fits = false;
-                        break;
-                    }
-                }
-
-                // Posicionamiento Horizontal
-                if (fits) {
-                    for (int i = 0; i < length; i++) {
-                        int coord = row * GameConfig.BOARD_DIMENSION + (col + i);
-                        board.setCellState(coord, CellState.SHIP);
-                        board.putShip(coord, ship);
-                    }
-                    placed = true;
-                }
-
+                row = random.nextInt(dimension);
+                col = random.nextInt(maxStart + 1);
+                baseCoord = row * dimension + col;
+                step = 1;
             } else {
-                // Verificar si traspasa el borde vertical
-                if (row + length > GameConfig.BOARD_DIMENSION) {
-                    continue;
-                }
+                row = random.nextInt(maxStart + 1);
+                col = random.nextInt(dimension);
+                baseCoord = row * dimension + col;
+                step = dimension;
+            }
 
-                // Verificación de ocupación (si cabe)
-                boolean fits = true;
+            // Verificación de ocupación (si cabe)
+            boolean fits = true;
+            for (int i = 0; i < length; i++) {
+                if (board.getCellState(baseCoord + i * step) != CellState.WATER) {
+                    fits = false;
+                    break;
+                }
+            }
+
+            // Posicionamiento
+            if (fits) {
                 for (int i = 0; i < length; i++) {
-                    int coord = (row + i) * GameConfig.BOARD_DIMENSION + col;
-                    if (board.getCellState(coord) != CellState.WATER) {
-                        fits = false;
-                        break;
-                    }
+                    int coord = baseCoord + i * step;
+                    board.setCellState(coord, CellState.SHIP);
+                    board.putShip(coord, ship);
                 }
-
-                // Posicionamiento Vertical
-                if (fits) {
-                    for (int i = 0; i < length; i++) {
-                        int coord = (row + i) * GameConfig.BOARD_DIMENSION + col;
-                        board.setCellState(coord, CellState.SHIP);
-                        board.putShip(coord, ship);
-                    }
-                    placed = true;
-                }
+                break;
             }
         }
     }
