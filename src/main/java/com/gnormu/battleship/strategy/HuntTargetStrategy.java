@@ -1,10 +1,9 @@
 package com.gnormu.battleship.strategy;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.gnormu.battleship.config.GameConfig;
 import com.gnormu.battleship.domain.BoardView;
 import com.gnormu.battleship.domain.CellState;
+import com.gnormu.battleship.strategy.algorithms.FisherYatesShuffle;
 
 /**
  * Estrategia de resolución de Hunt and Target:
@@ -22,25 +21,18 @@ import com.gnormu.battleship.domain.CellState;
  */
 public class HuntTargetStrategy extends AbstractBattleshipStrategy {
 
-    private boolean isHuntMode;
-    private int remainingCells;
-    private int lastCoord;
-
-    // Arreglo Fisher-Yates para el azar
-    private final int[] emptyCells;
-
-    // Arreglo de búsqueda inversa para O(1) en eliminaciones
-    private final int[] cellToIndex;
+    private final FisherYatesShuffle shuffler;
 
     // Stack de celdas objetivo para el modo Target
     private final int[] targets;
     private int targetCount;
 
+    private boolean isHuntMode;
+    private int lastCoord;
+
     public HuntTargetStrategy() {
-        int totalCells = GameConfig.DIMENSION_SQUARED;
-        this.emptyCells = new int[totalCells];
-        this.cellToIndex = new int[totalCells];
-        this.targets = new int[totalCells];
+        this.shuffler = new FisherYatesShuffle();
+        this.targets = new int[GameConfig.DIMENSION_SQUARED];
 
         reset();
     }
@@ -73,31 +65,31 @@ public class HuntTargetStrategy extends AbstractBattleshipStrategy {
                 int coord = targets[--targetCount];
                 if (boardView.getCellState(coord) == CellState.WATER) {
                     nextShot = coord;
+                    shuffler.remove(coord);
                     break;
                 }
             }
 
-            if (nextShot != -1) {
-                removeFromEmptyCells(nextShot);
-            } else {
+            if (nextShot == -1) {
                 isHuntMode = true;
             }
         }
 
         // Modo Hunt
         if (isHuntMode) {
-            int randomIndex = ThreadLocalRandom.current().nextInt(remainingCells);
-            nextShot = emptyCells[randomIndex];
-
-            remainingCells--;
-            int lastAvailableCell = emptyCells[remainingCells];
-
-            emptyCells[randomIndex] = lastAvailableCell;
-            cellToIndex[lastAvailableCell] = randomIndex;
+            nextShot = shuffler.drawRandom();
         }
 
         lastCoord = nextShot;
         return nextShot;
+    }
+
+    @Override
+    public void reset() {
+        shuffler.reset();
+        this.isHuntMode = true;
+        this.lastCoord = -1;
+        this.targetCount = 0;
     }
 
     private void addTarget(BoardView boardView, int coord) {
@@ -106,30 +98,5 @@ public class HuntTargetStrategy extends AbstractBattleshipStrategy {
                 targets[targetCount++] = coord;
             }
         }
-    }
-
-    private void removeFromEmptyCells(int coord) {
-        int indexToRemove = cellToIndex[coord];
-
-        if (indexToRemove < remainingCells) {
-            remainingCells--;
-            int lastAvailableCell = emptyCells[remainingCells];
-            emptyCells[indexToRemove] = lastAvailableCell;
-            cellToIndex[lastAvailableCell] = indexToRemove;
-            cellToIndex[coord] = GameConfig.DIMENSION_SQUARED;
-        }
-    }
-
-    @Override
-    public void reset() {
-        int totalCells = GameConfig.DIMENSION_SQUARED;
-        for (int i = 0; i < totalCells; i++) {
-            this.emptyCells[i] = i;
-            this.cellToIndex[i] = i;
-        }
-        this.remainingCells = totalCells;
-        this.isHuntMode = true;
-        this.lastCoord = -1;
-        this.targetCount = 0;
     }
 }
