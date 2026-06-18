@@ -13,9 +13,8 @@ import com.gnormu.battleship.domain.BoardView;
  * seleccionar una celda aleatoria de las que quedan por disparar.
  * 
  */
-public class TrueRandomMemoryStrategy implements BattleshipStrategy {
+public class TrueRandomMemoryStrategy extends AbstractBattleshipStrategy {
 
-    private static final String STRATEGY_NAME = "TrueRandom - Con memoria";
     private static final int[] EMPTY_CELLS = new int[GameConfig.DIMENSION_SQUARED];
 
     private final int[] emptyCells;
@@ -58,14 +57,6 @@ public class TrueRandomMemoryStrategy implements BattleshipStrategy {
         emptyCells[randomIndex] = emptyCells[remainingCells];
 
         return cell;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getStrategyName() {
-        return STRATEGY_NAME;
     }
 
     /**

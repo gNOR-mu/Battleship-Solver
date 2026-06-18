@@ -6,13 +6,9 @@ import com.gnormu.battleship.domain.BoardView;
  * Estrategia de resolución de fuerza bruta: Recorre el grid completo del
  * tablero sin considerar impactos
  */
-public class BruteForceStrategy implements BattleshipStrategy {
+public class BruteForceStrategy extends AbstractBattleshipStrategy {
 
-    private static final String STRATEGY_NAME = "BruteForce";
-
-    /**
-     * Indice utilizado para recorrer el tablero
-     */
+    /** Indice utilizado para recorrer el tablero */
     private int idx = 0;
 
     /**
@@ -34,14 +30,6 @@ public class BruteForceStrategy implements BattleshipStrategy {
     @Override
     public void reset() {
         this.idx = 0;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getStrategyName() {
-        return STRATEGY_NAME;
     }
 
 }

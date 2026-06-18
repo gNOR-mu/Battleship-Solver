@@ -20,9 +20,7 @@ import com.gnormu.battleship.domain.CellState;
  * @implNote Es prácticamente un {@link TrueRandomMemoryStrategy} con pasos
  *           adicionales
  */
-public class HuntTargetStrategy implements BattleshipStrategy {
-
-    private static final String STRATEGY_NAME = "Hunt and Target";
+public class HuntTargetStrategy extends AbstractBattleshipStrategy {
 
     private boolean isHuntMode;
     private int remainingCells;
@@ -120,11 +118,6 @@ public class HuntTargetStrategy implements BattleshipStrategy {
             cellToIndex[lastAvailableCell] = indexToRemove;
             cellToIndex[coord] = GameConfig.DIMENSION_SQUARED;
         }
-    }
-
-    @Override
-    public String getStrategyName() {
-        return STRATEGY_NAME;
     }
 
     @Override
