@@ -66,25 +66,25 @@ public class MetricEvaluator {
                 TrueRandomMemoryStrategy::new,
                 HuntTargetStrategy::new);
 
-        MetricAnalyzer analyzer = new MetricAnalyzer();
+        try (MetricAnalyzer analyzer = new MetricAnalyzer()) {
+            for (Supplier<BattleshipStrategy> strategyFactory : strategyFactories) {
+                SimulationConfig config = new SimulationConfig(strategyFactory, board, RandomFleetPlacer::new);
 
-        for (Supplier<BattleshipStrategy> strategyFactory : strategyFactories) {
-            SimulationConfig config = new SimulationConfig(strategyFactory, board, RandomFleetPlacer::new);
+                // Ejecución directa de la medición sin calentamiento
+                analyzer.runSimulations(config, totalGames);
 
-            // Ejecución directa de la medición sin calentamiento
-            analyzer.runSimulations(config, totalGames);
-
-            double avgTurns = analyzer.getAverageTurns();
-            int perfect = analyzer.getPerfectGames();
-            int best = analyzer.getBestGameTurns();
-            int worst = analyzer.getWorstGameTurns();
-            results.add(new EvaluationResult(
-                    board.get().getBoardName(),
-                    strategyFactory.get().getStrategyName(),
-                    avgTurns,
-                    perfect,
-                    best,
-                    worst));
+                double avgTurns = analyzer.getAverageTurns();
+                int perfect = analyzer.getPerfectGames();
+                int best = analyzer.getBestGameTurns();
+                int worst = analyzer.getWorstGameTurns();
+                results.add(new EvaluationResult(
+                        board.get().getBoardName(),
+                        strategyFactory.get().getStrategyName(),
+                        avgTurns,
+                        perfect,
+                        best,
+                        worst));
+            }
         }
 
         // Definición de anchos de columna para cálculo dinámico del borde del reporte

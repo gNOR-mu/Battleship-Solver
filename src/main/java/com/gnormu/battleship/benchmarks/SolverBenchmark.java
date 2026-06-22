@@ -54,6 +54,13 @@ public class SolverBenchmark {
         config = new SimulationConfig(strategyFactory, boardFactory, RandomFleetPlacer::new);
     }
 
+    @TearDown(Level.Trial)
+    public void tearDown() {
+        if (analyzer != null) {
+            analyzer.close();
+        }
+    }
+
     @Benchmark
     public void runSimulation() {
         analyzer.runSimulations(config, totalGames);
