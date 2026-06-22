@@ -51,14 +51,14 @@ public class FisherYatesShuffle {
      * 
      * @return Posición lineal correspondiente a la coordenada
      */
-    public int drawRandom() {
+    public byte drawRandom() {
         if (remainingCells == 0) {
             return -1;
         }
         int randomIndex = ThreadLocalRandom.current().nextInt(remainingCells);
         int cell = sequence[randomIndex];
         removeAtIndex(randomIndex);
-        return cell;
+        return (byte) cell;
     }
 
     /**

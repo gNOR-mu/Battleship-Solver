@@ -13,8 +13,10 @@ public class RandomFleetPlacer implements FleetPlacer {
      */
     @Override
     public void placeShips(Board board) {
-        for (byte ship = 0; ship < ShipType.COUNT; ship++) {
-            placeShip(board, ship);
+        for (byte ship = 0; ship < CellContent.SHIP_SIZE; ship++) {
+            if (CellContent.getLength(ship) > 0) {
+                placeShip(board, ship);
+            }
         }
     }
 
@@ -26,32 +28,32 @@ public class RandomFleetPlacer implements FleetPlacer {
      */
     private void placeShip(Board board, byte ship) {
         ThreadLocalRandom random = ThreadLocalRandom.current();
-        int length = ShipType.LENGTHS[ship];
-        int dimension = GameConfig.BOARD_DIMENSION;
+        byte length = CellContent.getLength(ship);
+        byte dimension = GameConfig.BOARD_DIMENSION;
         int maxStart = dimension - length;
 
         while (true) {
             boolean horizontal = random.nextBoolean();
             int row, col;
-            int baseCoord;
+            byte baseCoord;
             int step;
 
             if (horizontal) {
                 row = random.nextInt(dimension);
                 col = random.nextInt(maxStart + 1);
-                baseCoord = row * dimension + col;
+                baseCoord = (byte) (row * dimension + col);
                 step = 1;
             } else {
                 row = random.nextInt(maxStart + 1);
                 col = random.nextInt(dimension);
-                baseCoord = row * dimension + col;
+                baseCoord = (byte) (row * dimension + col);
                 step = dimension;
             }
 
             // Verificación de ocupación (si cabe)
             boolean fits = true;
-            for (int i = 0; i < length; i++) {
-                if (board.getCellState(baseCoord + i * step) != CellState.WATER) {
+            for (byte i = 0; i < length; i++) {
+                if (board.getCellState((byte) (baseCoord + i * step)) != CellContent.WATER) {
                     fits = false;
                     break;
                 }
@@ -59,9 +61,8 @@ public class RandomFleetPlacer implements FleetPlacer {
 
             // Posicionamiento
             if (fits) {
-                for (int i = 0; i < length; i++) {
-                    int coord = baseCoord + i * step;
-                    board.setCellState(coord, CellState.SHIP);
+                for (byte i = 0; i < length; i++) {
+                    byte coord = (byte) (baseCoord + i * step);
                     board.putShip(coord, ship);
                 }
                 break;

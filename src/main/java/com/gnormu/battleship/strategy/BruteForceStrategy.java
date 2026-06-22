@@ -9,7 +9,7 @@ import com.gnormu.battleship.domain.BoardView;
 public class BruteForceStrategy extends AbstractBattleshipStrategy {
 
     /** Indice utilizado para recorrer el tablero */
-    private int idx = 0;
+    private byte idx = 0;
 
     /**
      * {@inheritDoc}
@@ -20,7 +20,7 @@ public class BruteForceStrategy extends AbstractBattleshipStrategy {
      *           incrementa luego de utilizarse
      */
     @Override
-    public int calculateNextShot(BoardView boardView) {
+    public byte calculateNextShot(BoardView boardView) {
         return idx++;
     }
 

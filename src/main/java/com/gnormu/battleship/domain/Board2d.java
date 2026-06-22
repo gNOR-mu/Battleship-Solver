@@ -21,7 +21,7 @@ public class Board2d extends AbstractBoard {
     public Board2d() {
         super();
         this.grid = new byte[GameConfig.BOARD_DIMENSION][GameConfig.BOARD_DIMENSION];
-        clear();
+        reset();
     }
 
     /**
@@ -32,12 +32,12 @@ public class Board2d extends AbstractBoard {
      */
     public void clearBoardGrid() {
         for (int i = 0; i < GameConfig.BOARD_DIMENSION; i++) {
-            Arrays.fill(grid[i], CellState.WATER);
+            Arrays.fill(grid[i], CellContent.WATER);
         }
     }
 
     @Override
-    public byte getCellState(int coordinate) {
+    public byte getCellState(byte coordinate) {
         return grid[coordinate / GameConfig.BOARD_DIMENSION][coordinate % GameConfig.BOARD_DIMENSION];
     }
 
@@ -45,7 +45,7 @@ public class Board2d extends AbstractBoard {
      * {@inheritDoc}
      */
     @Override
-    public void setCellState(int coordinate, byte state) {
+    public void setCellState(byte coordinate, byte state) {
         grid[coordinate / GameConfig.BOARD_DIMENSION][coordinate % GameConfig.BOARD_DIMENSION] = state;
     }
 
@@ -55,5 +55,10 @@ public class Board2d extends AbstractBoard {
     @Override
     public String getBoardName() {
         return BOARD_NAME;
+    }
+
+    @Override
+    public void putShip(byte coordinate, byte ship) {
+        grid[coordinate / GameConfig.BOARD_DIMENSION][coordinate % GameConfig.BOARD_DIMENSION] = ship;
     }
 }

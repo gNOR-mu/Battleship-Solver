@@ -17,15 +17,26 @@ public class BoardView {
      * @param coordinate Coordenada lineal del disparo
      * @return Estado de la celda
      */
-    public byte getCellState(int coordinate) {
+    public byte getCellState(byte coordinate) {
 
         byte state = board.getCellState(coordinate);
 
         // no se revela si la celda contiene un barco
-        if (state == CellState.SHIP) {
-            return CellState.WATER;
+        if (state > 0) {
+            return CellContent.WATER;
         }
 
         return state;
+    }
+
+    /**
+     * Indica si un barco ha sido hundido
+     * 
+     * @param ship Identificador del barco
+     * @return <code>true</code> en caso de que el barco ya fue hundido,
+     *         <code>false</code> en caso contrario
+     */
+    public boolean isShipSunk(byte ship) {
+        return board.isShipSunk(ship);
     }
 }

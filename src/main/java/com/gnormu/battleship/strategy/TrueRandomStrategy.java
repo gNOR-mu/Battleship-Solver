@@ -20,7 +20,7 @@ public class TrueRandomStrategy extends AbstractBattleshipStrategy {
      *           de las dimensiones del tablero sin considerar absolutamente nada
      */
     @Override
-    public int calculateNextShot(BoardView boardView) {
-        return ThreadLocalRandom.current().nextInt(GameConfig.DIMENSION_SQUARED);
+    public byte calculateNextShot(BoardView boardView) {
+        return (byte) ThreadLocalRandom.current().nextInt(GameConfig.DIMENSION_SQUARED);
     }
 }

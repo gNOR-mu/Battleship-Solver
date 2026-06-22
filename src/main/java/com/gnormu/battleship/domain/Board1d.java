@@ -12,17 +12,7 @@ public class Board1d extends AbstractBoard {
     public Board1d() {
         super();
         this.grid = new byte[GameConfig.DIMENSION_SQUARED];
-        clear();
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @implNote Utiliza {@link Arrays#fill}
-     */
-    @Override
-    protected void clearBoardGrid() {
-        Arrays.fill(grid, CellState.WATER);
+        reset();
     }
 
     /**
@@ -31,7 +21,7 @@ public class Board1d extends AbstractBoard {
      * @implNote Acceso directo indexado en O(1)
      */
     @Override
-    public byte getCellState(int coordinate) {
+    public byte getCellState(byte coordinate) {
         return grid[coordinate];
     }
 
@@ -41,7 +31,7 @@ public class Board1d extends AbstractBoard {
      * @implNote Acceso directo indexado en O(1)
      */
     @Override
-    public void setCellState(int coordinate, byte state) {
+    public void setCellState(byte coordinate, byte state) {
         grid[coordinate] = state;
     }
 
@@ -51,6 +41,21 @@ public class Board1d extends AbstractBoard {
     @Override
     public String getBoardName() {
         return BOARD_NAME;
+    }
+
+    @Override
+    public void putShip(byte coordinate, byte ship) {
+        grid[coordinate] = ship;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @implNote Utiliza {@link Arrays#fill}
+     */
+    @Override
+    protected void clearBoardGrid() {
+        Arrays.fill(grid, CellContent.WATER);
     }
 
 }

@@ -15,7 +15,7 @@ public interface BattleshipStrategy {
      * @return Coordenada lineal a disparar [0, {@link GameConfig#DIMENSION_SQUARED}
      *         - 1]
      */
-    int calculateNextShot(BoardView boardView);
+    byte calculateNextShot(BoardView boardView);
 
     /**
      * @return Nombre de la estrategia

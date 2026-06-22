@@ -7,8 +7,8 @@ import java.util.concurrent.atomic.LongAccumulator;
 import java.util.concurrent.atomic.LongAdder;
 
 import com.gnormu.battleship.domain.Board;
+import com.gnormu.battleship.domain.CellContent;
 import com.gnormu.battleship.domain.FleetPlacer;
-import com.gnormu.battleship.domain.ShipType;
 import com.gnormu.battleship.strategy.BattleshipStrategy;
 
 /**
@@ -63,7 +63,7 @@ public class MetricAnalyzer {
                     // juegos que resuelve cada hilo
                     for (int j = 0; j < gamesCount; j++) {
                         // inicializa el tablero
-                        localBoard.clear();
+                        localBoard.reset();
                         placer.placeShips(localBoard);
                         // establece la estrategia a su estado inicial
                         strategy.reset();
@@ -71,7 +71,7 @@ public class MetricAnalyzer {
                         int turns = engine.resolve(strategy);
                         localTurns += turns;
 
-                        if (turns == ShipType.TOTAL_HEALTHS) {
+                        if (turns == CellContent.TOTAL_LIFES) {
                             localPerfect++;
                         }
                         if (turns > localMax) {

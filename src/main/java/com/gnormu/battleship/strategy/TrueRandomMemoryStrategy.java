@@ -24,7 +24,7 @@ public class TrueRandomMemoryStrategy extends AbstractBattleshipStrategy {
      * {@inheritDoc}
      */
     @Override
-    public int calculateNextShot(BoardView boardView) {
+    public byte calculateNextShot(BoardView boardView) {
         return shuffler.drawRandom();
     }
 

@@ -1,9 +1,5 @@
 package com.gnormu.battleship.domain;
 
-import java.util.Arrays;
-
-import com.gnormu.battleship.config.GameConfig;
-
 /**
  * Clase abstracta para manejar los tableros de juego
  * 
@@ -20,41 +16,23 @@ import com.gnormu.battleship.config.GameConfig;
  */
 public abstract class AbstractBoard implements Board {
 
-    /** Arreglo primitivo para la vida de los barcos (patrón Flyweight) */
-    protected final byte[] shipHealths;
-
-    /** Arreglo que representa la ubicación de los barcos en el tablero */
-    protected final byte[] shipsGrid;
+    /**
+     * Arreglo primitivo para la vida de los barcos (patrón Flyweight), si bien es
+     * posible eliminarlo para saber si un juego se ha terminado, por conveniencia
+     * permite mantenerlo para saber si un determinado barco sigue en juego (vida
+     * > 0)
+     */
+    protected final byte[] shipHealths = new byte[CellContent.SHIP_SIZE];
 
     /** Vida total de todos los barcos colocados en el tablero */
-    protected int totalShipHealth;
-
-    public AbstractBoard() {
-        this.shipHealths = new byte[ShipType.COUNT];
-        this.shipsGrid = new byte[GameConfig.DIMENSION_SQUARED];
-    }
-
-    /**
-     * Valida que las coordenadas permanezcan estrictamente dentro del tablero
-     * 
-     * @param coordinate Coordenada a validar
-     * 
-     * @throws IndexOutOfBoundsException Cuando la coordenada se encuentra fuera de
-     *                                   los límites del tablero
-     */
-    protected void validateCoordinates(int coordinate) {
-        if (coordinate < 0 || coordinate >= GameConfig.DIMENSION_SQUARED) {
-            throw new IndexOutOfBoundsException(
-                    "Disparo fuera de los límites: " + coordinate);
-        }
-    }
+    protected int remainingHealths = CellContent.TOTAL_LIFES;
 
     /**
      * {@inheritDoc}
      */
     @Override
     public boolean isGameOver() {
-        return totalShipHealth <= 0;
+        return remainingHealths <= 0;
     }
 
     /**
@@ -64,11 +42,9 @@ public abstract class AbstractBoard implements Board {
      *           use.
      */
     @Override
-    public final void clear() {
-        // Limpia el mapa manteniendo su capacidad en memoria
-        Arrays.fill(shipsGrid, ShipType.NONE);
-        System.arraycopy(ShipType.LENGTHS, 0, shipHealths, 0, ShipType.COUNT);
-        this.totalShipHealth = ShipType.TOTAL_HEALTHS;
+    public final void reset() {
+        CellContent.copyLength(shipHealths);
+        remainingHealths = CellContent.TOTAL_LIFES;
 
         clearBoardGrid();
     }
@@ -83,27 +59,26 @@ public abstract class AbstractBoard implements Board {
      *                                   los límites del tablero
      */
     @Override
-    public final void shoot(int coord) {
-        validateCoordinates(coord);
+    public final byte shoot(byte coord) {
+        byte originalState = getCellState(coord);
 
-        byte state = getCellState(coord);
+        // si el estado original es mayor a 0 significa que hay un barco
+        if (originalState > 0) {
+            // invierto su valor
+            setCellState(coord, (byte) -originalState);
+            shipHealths[originalState]--;
+            remainingHealths--;
 
-        if (state == CellState.SHIP) {
-            setCellState(coord, CellState.HIT);
-            byte affectedShip = shipsGrid[coord];
-            shipHealths[affectedShip]--;
-            totalShipHealth--;
-        } else if (state == CellState.WATER) {
-            setCellState(coord, CellState.MISS);
+        } else if (originalState == 0) {
+            setCellState(coord, CellContent.MISS);
         }
+
+        return originalState;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public final void putShip(int coordinate, byte ship) {
-        shipsGrid[coordinate] = ship;
+    public boolean isShipSunk(byte ship) {
+        return shipHealths[ship] == 0;
     }
 
     /**
@@ -111,13 +86,4 @@ public abstract class AbstractBoard implements Board {
      */
     protected abstract void clearBoardGrid();
 
-    /**
-     * {@inheritDoc}
-     */
-    public abstract byte getCellState(int coordinate);
-
-    /**
-     * {@inheritDoc}
-     */
-    public abstract void setCellState(int coordinate, byte state);
 }

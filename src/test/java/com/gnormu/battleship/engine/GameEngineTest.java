@@ -2,7 +2,6 @@ package com.gnormu.battleship.engine;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
@@ -12,26 +11,27 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.TestFactory;
 
 import com.gnormu.battleship.domain.Board;
 import com.gnormu.battleship.domain.Board2d;
+import com.gnormu.battleship.domain.CellContent;
 import com.gnormu.battleship.domain.FleetPlacer;
 import com.gnormu.battleship.domain.RandomFleetPlacer;
-import com.gnormu.battleship.domain.ShipType;
 import com.gnormu.battleship.strategy.BruteForceStrategy;
 
 public class GameEngineTest {
 
     private static int perfectGame;
-    private List<Supplier<Board>> boardFactories;
-    private FleetPlacer placer;
 
     @BeforeAll
     static void init() {
-        perfectGame = ShipType.TOTAL_HEALTHS;
+        perfectGame = CellContent.TOTAL_LIFES;
     }
+
+    private List<Supplier<Board>> boardFactories;
+
+    private FleetPlacer placer;
 
     @BeforeEach
     void setup() {
@@ -57,7 +57,8 @@ public class GameEngineTest {
                                 // 6. Validaciones
                                 assertTrue(board.isGameOver(), "El juego debió terminar");
                                 assertTrue(turns <= 100, "BruteForce no puede tomar más de 100 turnos");
-                                assertTrue(turns >= perfectGame, "El juego debe tomar por lo menos " + perfectGame + " turnos");
+                                assertTrue(turns >= perfectGame,
+                                        "El juego debe tomar por lo menos " + perfectGame + " turnos");
                             }));
                 })
                 .toList();

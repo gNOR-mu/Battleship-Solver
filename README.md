@@ -62,7 +62,8 @@ mvn test
 
 - Desiciones sobre manejo de coordenadas en [Manejo de coordenadas](doc/Manejo%20coordenadas.md)
 
-# TODO
+- Reglas de diseño en [Archivo marksown](doc/Diseño.md)
+
 
 ### General:
 - [ ] Documentar cada solver con una descripción detallada de su funcionamiento.
@@ -110,7 +111,6 @@ Dimensión del Tablero: 10x10
 | Board 1D     | BruteForce                       | 88,52        | 0                | 26           | 100          |
 | Board 1D     | TrueRandom - Sin memoria         | 343,73       | 0                | 64           | 1542         |
 | Board 1D     | TrueRandom - Con memoria         | 95,40        | 0                | 53           | 100          |
-| Board 1D     | Hunt and Target                  | 66,13        | 0                | 23           | 100          |
--------------------------------------------------------------------------------------------------------------------
+| Board 1D     | HuntTarget                       | 59,77        | 0                | 18           | 100          |-------------------------------------------------------------------------------------------------------------------
 ===================================================================================================================
 ```

@@ -4,7 +4,23 @@ public interface Board {
     /**
      * Limpia completamente el tablero, restableciendolo a sus valores iniciales
      */
-    void clear();
+    void reset();
+
+    /**
+     * Establece una celda determinada al nuevo estado
+     * 
+     * @param coordinate Coordenada lineal de la celda
+     * @param state      Nuevo estado de la celda
+     */
+    void setCellState(byte coordinate, byte state);
+
+    /**
+     * Añade un barco en la posición determinada
+     * 
+     * @param coordinate Coordenada lineal inicial del barco
+     * @param ship       Barco a añadir
+     */
+    void putShip(byte coordinate, byte ship);
 
     /**
      * Realiza un disparo en la coordenada indicada, actualizando el estado de la
@@ -12,10 +28,18 @@ public interface Board {
      * 
      * @param coordinate Coordenada lineal del disparo
      * 
-     * @throws IllegalArgumentException Cuando la coordenada se encuentra fuera de
-     *                                  los límites del tablero
      */
-    void shoot(int coordinate);
+    byte shoot(byte coordinate);
+
+    /**
+     * Obtiene la representación de la celda en la coordenada determinada
+     * 
+     * @param coordinate Coordenada lineal de la celda
+     * @return Estado de la celda correspondiente
+     * 
+     * @implNote Un valor positivo indica un barco no impactado
+     */
+    byte getCellState(byte coordinate);
 
     /**
      * Verifica si el juego ha terminado
@@ -26,28 +50,13 @@ public interface Board {
     boolean isGameOver();
 
     /**
-     * Obtiene la representación de la celda en la coordenada determinada
+     * Indica si un barco ha sido hundido
      * 
-     * @param coordinate Coordenada lineal de la celda
-     * @return Estado de la celda correspondiente
+     * @param ship Identificador del barco
+     * @return <code>true</code> en caso de que el barco ya fue hundido (vida == 0),
+     *         <code>false</code> en caso contrario (vida > 0)
      */
-    byte getCellState(int coordinate);
-
-    /**
-     * Establece una celda determinada al nuevo estado
-     * 
-     * @param coordinate Coordenada lineal de la celda
-     * @param state      Nuevo estado de la celda
-     */
-    void setCellState(int coordinate, byte state);
-
-    /**
-     * Añade un barco en la posición determinada
-     * 
-     * @param coordinate Coordenada lineal inicial del barco
-     * @param ship       Barco a añadir
-     */
-    void putShip(int coordinate, byte ship);
+    boolean isShipSunk(byte ship);
 
     /**
      * @return Nombre de la representación del tablero

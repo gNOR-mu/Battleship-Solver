@@ -36,7 +36,7 @@ public class GameEngine {
                 throw new RuntimeException("Demasiados intentos: Se excedió el numero de intentos máximo permitido "
                         + GameConfig.MAX_ATTEMPTS);
             }
-            int nextMove = strategy.calculateNextShot(boardView);
+            byte nextMove = strategy.calculateNextShot(boardView);
             board.shoot(nextMove);
             totalTurns++;
             attempts++;
