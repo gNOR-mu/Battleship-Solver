@@ -1,10 +1,11 @@
 package com.gnormu.battleship.domain;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.gnormu.battleship.config.GameConfig;
+import com.gnormu.battleship.strategy.algorithms.FastPRNG;
 
 public class RandomFleetPlacer implements FleetPlacer {
+
+    private final FastPRNG prng = new FastPRNG();
 
     /**
      * {@inheritDoc}
@@ -27,25 +28,24 @@ public class RandomFleetPlacer implements FleetPlacer {
      * @param ship Barco a posicionar
      */
     private void placeShip(Board board, byte ship) {
-        ThreadLocalRandom random = ThreadLocalRandom.current();
         byte length = CellContent.getLength(ship);
         byte dimension = GameConfig.BOARD_DIMENSION;
         int maxStart = dimension - length;
 
         while (true) {
-            boolean horizontal = random.nextBoolean();
+            boolean horizontal = prng.nextBoolean();
             int row, col;
             byte baseCoord;
             int step;
 
             if (horizontal) {
-                row = random.nextInt(dimension);
-                col = random.nextInt(maxStart + 1);
+                row = prng.nextInt(dimension);
+                col = prng.nextInt(maxStart + 1);
                 baseCoord = (byte) (row * dimension + col);
                 step = 1;
             } else {
-                row = random.nextInt(maxStart + 1);
-                col = random.nextInt(dimension);
+                row = prng.nextInt(maxStart + 1);
+                col = prng.nextInt(dimension);
                 baseCoord = (byte) (row * dimension + col);
                 step = dimension;
             }

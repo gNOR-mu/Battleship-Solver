@@ -1,9 +1,8 @@
 package com.gnormu.battleship.strategy;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.gnormu.battleship.config.GameConfig;
 import com.gnormu.battleship.domain.BoardView;
+import com.gnormu.battleship.strategy.algorithms.FastPRNG;
 
 /**
  * Algoritmo de resolución ineficiente que dispara aleatoriamente sin considerar
@@ -13,6 +12,8 @@ import com.gnormu.battleship.domain.BoardView;
  */
 public class TrueRandomStrategy extends AbstractBattleshipStrategy {
 
+    private final FastPRNG prng = new FastPRNG();
+
     /**
      * {@inheritDoc}
      * 
@@ -21,6 +22,6 @@ public class TrueRandomStrategy extends AbstractBattleshipStrategy {
      */
     @Override
     public byte calculateNextShot(BoardView boardView) {
-        return (byte) ThreadLocalRandom.current().nextInt(GameConfig.DIMENSION_SQUARED);
+        return (byte) prng.nextInt(GameConfig.DIMENSION_SQUARED);
     }
 }
