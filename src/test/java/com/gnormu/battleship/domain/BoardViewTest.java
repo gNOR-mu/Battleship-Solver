@@ -11,11 +11,11 @@ public class BoardViewTest {
 
     private BoardView boardView;
 
-    private Board2d board;
+    private Board2D board;
 
     @BeforeEach
     void setup() {
-        board = new Board2d();
+        board = new Board2D();
         boardView = new BoardView(board);
     }
 

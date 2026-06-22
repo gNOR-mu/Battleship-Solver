@@ -11,14 +11,14 @@ import com.gnormu.battleship.config.GameConfig;
  *           los barcos permite un acceso rápido a las celdas y a la información
  *           de los barcos.
  */
-public class Board2d extends AbstractBoard {
+public class Board2D extends AbstractBoard {
 
     private static final String BOARD_NAME = "Board 2D";
 
     /** Arreglo bidimensional que representa el tablero de juego */
     private final byte[][] grid;
 
-    public Board2d() {
+    public Board2D() {
         super();
         this.grid = new byte[GameConfig.BOARD_DIMENSION][GameConfig.BOARD_DIMENSION];
         reset();

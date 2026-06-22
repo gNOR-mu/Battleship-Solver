@@ -4,12 +4,12 @@ import java.util.Arrays;
 
 import com.gnormu.battleship.config.GameConfig;
 
-public class Board1d extends AbstractBoard {
+public class Board1D extends AbstractBoard {
     private static final String BOARD_NAME = "Board 1D";
 
     private final byte[] grid;
 
-    public Board1d() {
+    public Board1D() {
         super();
         this.grid = new byte[GameConfig.DIMENSION_SQUARED];
         reset();

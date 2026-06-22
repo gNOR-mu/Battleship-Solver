@@ -14,7 +14,7 @@ import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 
 import com.gnormu.battleship.domain.Board;
-import com.gnormu.battleship.domain.Board2d;
+import com.gnormu.battleship.domain.Board2D;
 import com.gnormu.battleship.domain.CellContent;
 import com.gnormu.battleship.domain.FleetPlacer;
 import com.gnormu.battleship.domain.RandomFleetPlacer;
@@ -36,7 +36,7 @@ public class GameEngineTest {
     @BeforeEach
     void setup() {
         placer = new RandomFleetPlacer();
-        boardFactories = List.of(Board2d::new);
+        boardFactories = List.of(Board2D::new);
     }
 
     @TestFactory

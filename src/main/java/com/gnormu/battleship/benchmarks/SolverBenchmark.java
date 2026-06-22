@@ -6,8 +6,8 @@ import java.util.function.Supplier;
 import org.openjdk.jmh.annotations.*;
 
 import com.gnormu.battleship.domain.Board;
-import com.gnormu.battleship.domain.Board1d;
-import com.gnormu.battleship.domain.Board2d;
+import com.gnormu.battleship.domain.Board1D;
+import com.gnormu.battleship.domain.Board2D;
 import com.gnormu.battleship.domain.RandomFleetPlacer;
 import com.gnormu.battleship.engine.MetricAnalyzer;
 import com.gnormu.battleship.engine.SimulationConfig;
@@ -38,8 +38,8 @@ public class SolverBenchmark {
 
         // Usamos un Switch moderno (Java 14+) para convertir el String en un Supplier
         Supplier<Board> boardFactory = switch (boardType) {
-            case "Board2D" -> Board2d::new;
-            case "Board1D" -> Board1d::new;
+            case "Board2D" -> Board2D::new;
+            case "Board1D" -> Board1D::new;
             default -> throw new IllegalArgumentException("Tablero no soportado: " + boardType);
         };
 

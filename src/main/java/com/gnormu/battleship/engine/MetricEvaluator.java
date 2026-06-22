@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 
 import com.gnormu.battleship.config.GameConfig;
 import com.gnormu.battleship.domain.Board;
-import com.gnormu.battleship.domain.Board1d;
+import com.gnormu.battleship.domain.Board1D;
 import com.gnormu.battleship.domain.RandomFleetPlacer;
 import com.gnormu.battleship.strategy.BattleshipStrategy;
 import com.gnormu.battleship.strategy.BruteForceStrategy;
@@ -40,17 +40,6 @@ public class MetricEvaluator {
     }
 
     /**
-     * Genera una línea repetitiva de caracteres con un largo determinado.
-     * 
-     * @param character Carácter a repetir
-     * @param length    Cantidad de veces a repetir
-     * @return Línea construida
-     */
-    private String generateSeparator(char character, int length) {
-        return String.valueOf(character).repeat(Math.max(0, length));
-    }
-
-    /**
      * Ejecuta la evaluación completa para todas las combinaciones y muestra el
      * reporte en consola.
      */
@@ -68,7 +57,7 @@ public class MetricEvaluator {
 
         List<EvaluationResult> results = new ArrayList<>();
 
-        Supplier<Board> board = Board1d::new;
+        Supplier<Board> board = Board1D::new;
 
         // Combinaciones de Estrategias
         List<Supplier<BattleshipStrategy>> strategyFactories = List.of(
@@ -120,5 +109,16 @@ public class MetricEvaluator {
         }
         System.out.println(tableSeparator);
         System.out.println(tableDoubleSeparator);
+    }
+
+    /**
+     * Genera una línea repetitiva de caracteres con un largo determinado.
+     * 
+     * @param character Carácter a repetir
+     * @param length    Cantidad de veces a repetir
+     * @return Línea construida
+     */
+    private String generateSeparator(char character, int length) {
+        return String.valueOf(character).repeat(Math.max(0, length));
     }
 }
