@@ -90,10 +90,10 @@ Evaluación en un Notebook i5-13420H 16GB RAM DDR5, ambas pruebas se ejecutan co
 ### Tiempo Promedio (ms):
 ```
 Benchmark                      (boardType)    (strategyType)  Mode  Cnt    Score    Error  Units
-SolverBenchmark.runSimulation      Board1D        TrueRandom  avgt    5  192,533 ± 12,515  ms/op
-SolverBenchmark.runSimulation      Board1D  TrueRandomMemory  avgt    5   85,588 ± 10,046  ms/op
-SolverBenchmark.runSimulation      Board1D        BruteForce  avgt    5   33,056 ±  4,555  ms/op
-SolverBenchmark.runSimulation      Board1D        HuntTarget  avgt    5   96,451 ± 16,582  ms/op
+SolverBenchmark.runSimulation      Board1D        TrueRandom  avgt    5  118,669 ± 15,152  ms/op
+SolverBenchmark.runSimulation      Board1D  TrueRandomMemory  avgt    5   50,615 ±  6,085  ms/op
+SolverBenchmark.runSimulation      Board1D        BruteForce  avgt    5   23,584 ±  2,115  ms/op
+SolverBenchmark.runSimulation      Board1D        HuntTarget  avgt    5  118,403 ± 10,443  ms/op
 ```
 
 ### Evaluación de turnos:

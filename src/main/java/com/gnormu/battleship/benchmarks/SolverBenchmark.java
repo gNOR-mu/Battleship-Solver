@@ -25,7 +25,7 @@ public class SolverBenchmark {
     @Param({ "TrueRandom", "TrueRandomMemory", "BruteForce", "HuntTarget" })
     private String strategyType;
 
-    @Param({ "Board1D", "Board2D" })
+    @Param({ "Board1D" })
     private String boardType;
 
     private MetricAnalyzer analyzer;
@@ -36,7 +36,6 @@ public class SolverBenchmark {
     public void setup() {
         analyzer = new MetricAnalyzer();
 
-        // Usamos un Switch moderno (Java 14+) para convertir el String en un Supplier
         Supplier<Board> boardFactory = switch (boardType) {
             case "Board2D" -> Board2D::new;
             case "Board1D" -> Board1D::new;
