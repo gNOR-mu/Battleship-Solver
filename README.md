@@ -4,7 +4,11 @@ Este es un repositorio inspirado en un proyecto que tuve que hacer en algún mom
 
 La idea del repositorio es simple, mostrar diversos algoritmos y sus funcionamientos como estrategias para resolver el tablero de forma eficiente e ineficiente según el algoritmo utilizado mediante el uso del patrón de diseño Strategy.
 
+Como objetivo adicional se intenta que la resolución de los tableros (500k simulaciones) sea lo más eficiente posible, aunque implique utilizar estrategias más abstractas que se alejen de los principios de POO.
+
 Además se toman optimizaciones adicionales, como caching, aplanado de arreglos, etc. Para reducir en mayor medida el tiempo de resolución.
+
+**Se va a considerar una victoria absoluta cuando un algoritmo sea capaz de resolver los 500k de juegos en menos de 1 milisegundo.**
 
 # Uso con Maven
 
@@ -111,6 +115,7 @@ Dimensión del Tablero: 10x10
 | Board 1D     | BruteForce                       | 88,52        | 0                | 26           | 100          |
 | Board 1D     | TrueRandom - Sin memoria         | 343,73       | 0                | 64           | 1542         |
 | Board 1D     | TrueRandom - Con memoria         | 95,40        | 0                | 53           | 100          |
-| Board 1D     | HuntTarget                       | 59,77        | 0                | 18           | 100          |-------------------------------------------------------------------------------------------------------------------
+| Board 1D     | HuntTarget                       | 59,77        | 0                | 18           | 100          |
+-------------------------------------------------------------------------------------------------------------------
 ===================================================================================================================
 ```
