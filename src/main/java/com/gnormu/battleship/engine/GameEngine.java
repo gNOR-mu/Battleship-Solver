@@ -37,7 +37,7 @@ public class GameEngine {
                         + GameConfig.MAX_ATTEMPTS);
             }
             byte nextMove = strategy.calculateNextShot(boardView);
-            board.shoot(nextMove);
+            strategy.setLastShoot(board.shoot(nextMove));
             totalTurns++;
             attempts++;
         }

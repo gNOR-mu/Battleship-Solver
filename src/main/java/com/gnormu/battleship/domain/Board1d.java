@@ -4,13 +4,16 @@ import java.util.Arrays;
 
 import com.gnormu.battleship.config.GameConfig;
 
+/**
+ * Clase que representa el tablero de juego utilizando un arreglo lineal de una
+ * dimensión.
+ * 
+ */
 public class Board1D extends AbstractBoard {
-    private static final String BOARD_NAME = "Board 1D";
 
     private final byte[] grid;
 
     public Board1D() {
-        super();
         this.grid = new byte[GameConfig.DIMENSION_SQUARED];
         reset();
     }
@@ -39,11 +42,6 @@ public class Board1D extends AbstractBoard {
      * {@inheritDoc}
      */
     @Override
-    public String getBoardName() {
-        return BOARD_NAME;
-    }
-
-    @Override
     public void putShip(byte coordinate, byte ship) {
         grid[coordinate] = ship;
     }
@@ -51,7 +49,7 @@ public class Board1D extends AbstractBoard {
     /**
      * {@inheritDoc}
      *
-     * @implNote Utiliza {@link Arrays#fill}
+     * @implNote Utiliza {@link Arrays#fill} para rellenar de forma eficiente
      */
     @Override
     protected void clearBoardGrid() {

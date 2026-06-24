@@ -23,6 +23,14 @@ public interface BattleshipStrategy {
     String getStrategyName();
 
     /**
+     * Establece el resultado del último disparo
+     * 
+     * @param lastShoot Contenido inicial de la última celda impactada
+     */
+    default void setLastShoot(byte lastShoot) {
+    }
+
+    /**
      * Reinicia la estrategia a su estado inicial
      * 
      */

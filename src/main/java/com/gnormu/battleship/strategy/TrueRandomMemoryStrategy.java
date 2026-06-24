@@ -32,7 +32,7 @@ public class TrueRandomMemoryStrategy extends AbstractBattleshipStrategy {
      * {@inheritDoc}
      */
     @Override
-    public void reset() {
+    public void resetStrategy() {
         shuffler.reset();
     }
 

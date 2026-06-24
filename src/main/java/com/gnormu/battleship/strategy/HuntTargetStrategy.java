@@ -1,5 +1,7 @@
 package com.gnormu.battleship.strategy;
 
+import java.util.Arrays;
+
 import com.gnormu.battleship.config.GameConfig;
 import com.gnormu.battleship.domain.BoardView;
 import com.gnormu.battleship.domain.CellContent;
@@ -32,12 +34,9 @@ public class HuntTargetStrategy extends AbstractBattleshipStrategy {
     @Override
     public byte calculateNextShot(BoardView boardView) {
         // Registrar impacto si hubo un disparo anterior
-        if (lastCoord != -1) {
-            byte lastShotState = boardView.getCellState(lastCoord);
-            if (lastShotState < 0 && lastShotState != CellContent.MISS) {
-                byte ship = (byte) -lastShotState;
-                shipHits[ship][shipHitCounts[ship]++] = lastCoord;
-            }
+        if (lastShoot > 0) {
+            byte ship = lastShoot;
+            shipHits[ship][shipHitCounts[ship]++] = lastCoord;
         }
 
         byte nextShot = -1;
@@ -68,12 +67,10 @@ public class HuntTargetStrategy extends AbstractBattleshipStrategy {
      * {@inheritDoc}
      */
     @Override
-    public void reset() {
+    public void resetStrategy() {
         shuffler.reset();
         this.lastCoord = -1;
-        for (int i = 0; i < CellContent.SHIP_SIZE; i++) {
-            shipHitCounts[i] = 0;
-        }
+        Arrays.fill(shipHitCounts, (byte) 0);
     }
 
     /**

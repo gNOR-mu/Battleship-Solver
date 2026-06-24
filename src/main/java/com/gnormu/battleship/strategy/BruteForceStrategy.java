@@ -28,7 +28,7 @@ public class BruteForceStrategy extends AbstractBattleshipStrategy {
      * {@inheritDoc}
      */
     @Override
-    public void reset() {
+    public void resetStrategy() {
         this.idx = 0;
     }
 

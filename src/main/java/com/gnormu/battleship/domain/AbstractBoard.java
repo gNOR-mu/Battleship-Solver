@@ -76,9 +76,22 @@ public abstract class AbstractBoard implements Board {
         return originalState;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isShipSunk(byte ship) {
         return shipHealths[ship] == 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @implNote Utiliza el nombre de la clase
+     */
+    @Override
+    public String getBoardName() {
+        return this.getClass().getSimpleName();
     }
 
     /**

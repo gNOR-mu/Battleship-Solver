@@ -28,6 +28,12 @@ public interface Board {
      * 
      * @param coordinate Coordenada lineal del disparo
      * 
+     * @return Contenido inicial de la celda, puede {@link CellContent#WATER} si es
+     *         agua, un número > 0 si es un barco o un número negativo,
+     *         correspondiente al negativo de un barco u {@link CellContent#MISS}.
+     *         En el caso de un barco invertido se considera una multiplicación por
+     *         menos uno: ejemplo Barco 1 pasa a ser -1 en las casillas y se retorna
+     *         1.
      */
     byte shoot(byte coordinate);
 
