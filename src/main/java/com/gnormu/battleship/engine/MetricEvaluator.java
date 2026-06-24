@@ -1,6 +1,5 @@
 package com.gnormu.battleship.engine;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -19,26 +18,7 @@ import com.gnormu.battleship.strategy.HuntTargetStrategy;
  * entre las distintas combinaciones de tableros y solvers.
  */
 public class MetricEvaluator {
-
-    private static class EvaluationResult {
-        String boardName;
-        String strategyName;
-        double averageTurns;
-        int perfectGames;
-        int bestGameTurns;
-        int worstGameTurns;
-
-        public EvaluationResult(String boardName, String strategyName, double averageTurns, int perfectGames,
-                int bestGameTurns, int worstGameTurns) {
-            this.boardName = boardName;
-            this.strategyName = strategyName;
-            this.averageTurns = averageTurns;
-            this.perfectGames = perfectGames;
-            this.bestGameTurns = bestGameTurns;
-            this.worstGameTurns = worstGameTurns;
-        }
-    }
-
+    // TODO REFACTORIZAR
     /**
      * Ejecuta la evaluación completa para todas las combinaciones y muestra el
      * reporte en consola.
@@ -55,8 +35,6 @@ public class MetricEvaluator {
         System.out.println("Dimensión del Tablero: " + GameConfig.BOARD_DIMENSION + "x" + GameConfig.BOARD_DIMENSION);
         System.out.println(mainHeaderBorder);
 
-        List<EvaluationResult> results = new ArrayList<>();
-
         Supplier<Board> board = Board1D::new;
 
         // Combinaciones de Estrategias
@@ -65,6 +43,22 @@ public class MetricEvaluator {
                 TrueRandomStrategy::new,
                 TrueRandomMemoryStrategy::new,
                 HuntTargetStrategy::new);
+
+        // Definición de anchos de columna para cálculo dinámico del borde del reporte
+        int[] colWidths = { 12, 32, 12, 16, 12, 12 };
+        int tableWidth = colWidths.length * 3 + 1;
+        for (int w : colWidths) {
+            tableWidth += w;
+        }
+
+        String tableSeparator = generateSeparator('-', tableWidth);
+        String tableDoubleSeparator = generateSeparator('=', tableWidth);
+
+        // Imprimir cabecera de la tabla
+        System.out.println("\n" + tableSeparator);
+        System.out.printf("| %-12s | %-32s | %-12s | %-16s | %-12s | %-12s |\n", "Tablero", "Estrategia",
+                "Turnos Prom.", "Juegos Perfectos", "Mejor Juego", "Peor Juego");
+        System.out.println(tableSeparator);
 
         try (MetricAnalyzer analyzer = new MetricAnalyzer()) {
             for (Supplier<BattleshipStrategy> strategyFactory : strategyFactories) {
@@ -77,36 +71,18 @@ public class MetricEvaluator {
                 int perfect = analyzer.getPerfectGames();
                 int best = analyzer.getBestGameTurns();
                 int worst = analyzer.getWorstGameTurns();
-                results.add(new EvaluationResult(
+
+                // Imprimir resultado del solver inmediatamente al terminar la simulación
+                System.out.printf("| %-12s | %-32s | %-12.2f | %-16d | %-12d | %-12d |\n",
                         board.get().getName(),
                         strategyFactory.get().getName(),
                         avgTurns,
                         perfect,
                         best,
-                        worst));
+                        worst);
             }
         }
 
-        // Definición de anchos de columna para cálculo dinámico del borde del reporte
-        int[] colWidths = { 12, 32, 12, 16, 12, 12 };
-        int tableWidth = colWidths.length * 3 + 1;
-        for (int w : colWidths) {
-            tableWidth += w;
-        }
-
-        String tableSeparator = generateSeparator('-', tableWidth);
-        String tableDoubleSeparator = generateSeparator('=', tableWidth);
-
-        // Imprimir reporte con formato de tabla
-        System.out.println("\n" + tableSeparator);
-        System.out.printf("| %-12s | %-32s | %-12s | %-16s | %-12s | %-12s |\n", "Tablero", "Estrategia",
-                "Turnos Prom.", "Juegos Perfectos", "Mejor Juego", "Peor Juego");
-        System.out.println(tableSeparator);
-        for (EvaluationResult res : results) {
-            System.out.printf("| %-12s | %-32s | %-12.2f | %-16d | %-12d | %-12d |\n",
-                    res.boardName, res.strategyName, res.averageTurns, res.perfectGames, res.bestGameTurns,
-                    res.worstGameTurns);
-        }
         System.out.println(tableSeparator);
         System.out.println(tableDoubleSeparator);
     }
