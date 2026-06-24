@@ -1,6 +1,8 @@
 package com.gnormu.battleship.domain;
 
-public interface Board {
+import com.gnormu.battleship.common.Reportable;
+
+public interface Board extends Reportable {
     /**
      * Limpia completamente el tablero, restableciendolo a sus valores iniciales
      */
@@ -65,8 +67,12 @@ public interface Board {
     boolean isShipSunk(byte ship);
 
     /**
-     * @return Nombre de la representación del tablero
+     * {@inheritDoc}
+     * 
+     * @implNote Utiliza el nombre de la clase
      */
-    String getBoardName();
-
+    @Override
+    default String getName() {
+        return this.getClass().getSimpleName();
+    }
 }

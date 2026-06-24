@@ -13,18 +13,6 @@ public abstract class AbstractBattleshipStrategy implements BattleshipStrategy {
      */
     protected byte lastShoot = CellContent.WATER;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @implNote Utiliza el nombre de la clase como nombre de la estrategia
-     *           eliminando la palabra "Strategy" del nombre
-     */
-    @Override
-    public final String getStrategyName() {
-        return this.getClass().getSimpleName()
-                .replace("Strategy", "");
-    }
-
     @Override
     public void setLastShoot(byte lastShoot) {
         this.lastShoot = lastShoot;

@@ -78,8 +78,8 @@ public class MetricEvaluator {
                 int best = analyzer.getBestGameTurns();
                 int worst = analyzer.getWorstGameTurns();
                 results.add(new EvaluationResult(
-                        board.get().getBoardName(),
-                        strategyFactory.get().getStrategyName(),
+                        board.get().getName(),
+                        strategyFactory.get().getName(),
                         avgTurns,
                         perfect,
                         best,

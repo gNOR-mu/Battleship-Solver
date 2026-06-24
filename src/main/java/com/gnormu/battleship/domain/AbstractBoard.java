@@ -85,16 +85,6 @@ public abstract class AbstractBoard implements Board {
     }
 
     /**
-     * {@inheritDoc}
-     * 
-     * @implNote Utiliza el nombre de la clase
-     */
-    @Override
-    public String getBoardName() {
-        return this.getClass().getSimpleName();
-    }
-
-    /**
      * Restablece el grid del tablero a su estado inicial
      */
     protected abstract void clearBoardGrid();

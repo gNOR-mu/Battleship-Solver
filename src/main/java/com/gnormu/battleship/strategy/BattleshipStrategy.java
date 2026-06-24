@@ -1,12 +1,13 @@
 package com.gnormu.battleship.strategy;
 
+import com.gnormu.battleship.common.Reportable;
 import com.gnormu.battleship.config.GameConfig;
 import com.gnormu.battleship.domain.BoardView;
 
 /**
  * Interfaz que define el comportamiendo de las estrategias de resolución
  */
-public interface BattleshipStrategy {
+public interface BattleshipStrategy extends Reportable {
 
     /**
      * Calcula la coordenada del siguiente disparo.
@@ -16,11 +17,6 @@ public interface BattleshipStrategy {
      *         - 1]
      */
     byte calculateNextShot(BoardView boardView);
-
-    /**
-     * @return Nombre de la estrategia
-     */
-    String getStrategyName();
 
     /**
      * Establece el resultado del último disparo
@@ -36,4 +32,14 @@ public interface BattleshipStrategy {
      */
     default void reset() {
     };
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @implNote Utiliza el nombre de la clase como
+     *           nombre de la estrategia eliminando la palabra "Strategy" del nombre
+     */
+    default String getName() {
+        return this.getClass().getSimpleName().replace("Strategy", "");
+    }
 }
