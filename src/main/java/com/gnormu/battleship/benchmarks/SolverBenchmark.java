@@ -8,6 +8,8 @@ import org.openjdk.jmh.annotations.*;
 import com.gnormu.battleship.domain.Board;
 import com.gnormu.battleship.domain.Board1D;
 import com.gnormu.battleship.domain.Board2D;
+import com.gnormu.battleship.domain.FixedRandomPlacer;
+import com.gnormu.battleship.domain.FleetPlacer;
 import com.gnormu.battleship.domain.RandomFleetPlacer;
 import com.gnormu.battleship.engine.MetricAnalyzer;
 import com.gnormu.battleship.engine.SimulationConfig;
@@ -27,6 +29,9 @@ public class SolverBenchmark {
 
     @Param({ "Board1D" })
     private String boardType;
+
+    @Param({ "Random", "FixedRandom" })
+    private String placerType;
 
     private MetricAnalyzer analyzer;
     private SimulationConfig config;
@@ -50,7 +55,13 @@ public class SolverBenchmark {
             default -> throw new IllegalArgumentException("Estrategia no soportada: " + strategyType);
         };
 
-        config = new SimulationConfig(strategyFactory, boardFactory, RandomFleetPlacer::new);
+        Supplier<FleetPlacer> placerFactory = switch (placerType) {
+            case "Random" -> RandomFleetPlacer::new;
+            case "FixedRandom" -> FixedRandomPlacer::new;
+            default -> throw new IllegalArgumentException("Placer no soportado: " + placerType);
+        };
+
+        config = new SimulationConfig(strategyFactory, boardFactory, placerFactory);
     }
 
     @TearDown(Level.Trial)

@@ -12,14 +12,9 @@ Además se toman optimizaciones adicionales, como caching, aplanado de arreglos,
 
 # Uso con Maven
 
-Compilación: 
-```shell 
-mvn compile
-```
-
 Ejecución: 
 ```shell 
-mvn exec:exec
+mvn compile exec:exec
 ```
 
 Ejecutar Benchmarks:
@@ -89,9 +84,9 @@ Descripción breve de los algoritmos a implementar:
 
 # Resultados
 
-Evaluación en un Notebook i5-13420H 16GB RAM DDR5, ambas pruebas se ejecutan con 500 000 tableros, las cuales representan la operación, es decir 100 ms/op corresponde a una ejecución que engloba la resolución de 500 000 tableros tardando solo 100 ms en total.
+Evaluación en un Notebook i5-13420H 16GB RAM DDR5, ambas pruebas se ejecutan con 500 000 tableros, las cuales representan la operación, es decir 100 ms/op corresponde a una ejecución que engloba la resolución de 500 000 tableros tardando solo 100 ms en total, los tiempos son extremadamente sensibles según el uso de recursos actuales al momento de su ejecución.
 
-### Tiempo Promedio (ms):
+### Tiempo Promedio en milisegundos (ms):
 ```
 Benchmark                      (boardType)    (strategyType)  Mode  Cnt    Score    Error  Units
 SolverBenchmark.runSimulation      Board1D        TrueRandom  avgt    5  118,669 ± 15,152  ms/op
@@ -118,4 +113,13 @@ Dimensión del Tablero: 10x10
 | Board 1D     | HuntTarget                       | 59,77        | 0                | 18           | 100          |
 -------------------------------------------------------------------------------------------------------------------
 ===================================================================================================================
+```
+
+### Otros
+
+Existe una implementación FixedRandomPlacer la cual genera una única variante aleatoria de la posición de los barcos y luego los copia para cada juego, esto simula un posicionador de barcos casi perfecto en términos de tiempo o al menos más eficiente que el aleatorio indicando que aún hay márgenes de mejora, por sejemplo en BruteForce con casi 16 ms de diferencia:
+
+```
+SolverBenchmark.runSimulation      Board1D        Random        BruteForce  avgt    5   26,997 ± 2,948  ms/op
+SolverBenchmark.runSimulation      Board1D   FixedRandom        BruteForce  avgt    5   10,709 ± 1,015  ms/op
 ```
