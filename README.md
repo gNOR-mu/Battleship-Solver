@@ -69,7 +69,7 @@ mvn test
 - [ ] Definir framework para la GUI.
 
 
-### Implementar algoritmos:
+### Roadmap:
 
 Descripción breve de los algoritmos a implementar:
 
