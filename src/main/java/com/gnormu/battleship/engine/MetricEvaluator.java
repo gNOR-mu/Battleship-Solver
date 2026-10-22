@@ -19,7 +19,7 @@ import com.gnormu.battleship.strategy.MontecarloStrategy;
  * entre las distintas combinaciones de tableros y solvers.
  */
 public class MetricEvaluator {
-    // TODO REFACTORIZAR
+    
     /**
      * Ejecuta la evaluación completa para todas las combinaciones y muestra el
      * reporte en consola.
